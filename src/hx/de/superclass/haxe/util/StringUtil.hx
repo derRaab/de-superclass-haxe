@@ -245,6 +245,12 @@ class StringUtil {
 		return string;
 	}
 
+	public static function replaceNonAlphaNumeric( string : String, ?replaceString : String = "" ) : String {
+
+		var r = ~/[^a-zA-Z0-9]+/g;
+		return r.replace( string, replaceString );
+	}
+
 	public static function trim( string : String, ?char : String = " " ) : String {
 
 		while ( string.indexOf( char ) == 0 ) {
