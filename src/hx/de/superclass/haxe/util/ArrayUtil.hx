@@ -27,16 +27,16 @@ package de.superclass.haxe.util;
 **/
 class ArrayUtil {
 
-	public static inline function contains( array : Array<Dynamic>, value : Dynamic ) : Bool {
+	public static inline function contains<T>( array : Array<T>, value : T ) : Bool {
 
 		return ( array.indexOf( value ) != -1 );
 	}
 
-	public static function detectFirstUsedValue( array : Array<Dynamic>, detectValuesOrder : Array<Dynamic>, ?fallback : Dynamic = null ) : Dynamic {
+	public static function detectFirstUsedValue<T>( array : Array<T>, detectValuesOrder : Array<T>, ?fallback : T = null ) : T {
 
 		for ( i in 0...detectValuesOrder.length ) {
 
-			var value : Dynamic = detectValuesOrder[ i ];
+			var value : T = detectValuesOrder[ i ];
 			if ( array.indexOf( value ) != -1 ) {
 
 				return value;
@@ -46,7 +46,7 @@ class ArrayUtil {
 		return fallback;
 	}
 
-	public static inline function fill( array : Array<Dynamic>, maxLength : Int, value : Dynamic ) : Array<Dynamic> {
+	public static inline function fill<T>( array : Array<T>, maxLength : Int, value : T ) : Array<T> {
 
 		for ( i in array.length...maxLength ) {
 
@@ -55,7 +55,7 @@ class ArrayUtil {
 		return array;
 	}
 
-	public static function getValueFollowing( array : Array<Dynamic>, value : Dynamic ) : Dynamic {
+	public static function getValueFollowing<T>( array : Array<T>, value : T ) : T {
 
 		var index : Int = array.indexOf( value );
 		if ( index != -1 && index < array.length - 1 ) {
@@ -65,12 +65,12 @@ class ArrayUtil {
 		return null;
 	}
 
-	public static inline function hasLength( array : Array<Dynamic> ) : Bool {
+	public static inline function hasLength<T>( array : Array<T> ) : Bool {
 
 		return ( array != null && 0 < array.length );
 	}
 
-	public static function insertAll( toArray : Array<Dynamic>, fromArray : Array<Dynamic>, pos : Int ) : Array<Dynamic> {
+	public static function insertAll<T>( toArray : Array<T>, fromArray : Array<T>, pos : Int ) : Array<T> {
 
 		var i : Int = fromArray.length - 1;
 		while ( 0 <= i ) {
@@ -82,7 +82,7 @@ class ArrayUtil {
 		return toArray;
 	}
 
-	public static inline function pushAll( toArray : Array<Dynamic>, fromArray : Array<Dynamic> ) : Array<Dynamic> {
+	public static inline function pushAll<T>( toArray : Array<T>, fromArray : Array<T> ) : Array<T> {
 
 		for ( i in 0...fromArray.length ) {
 
@@ -92,7 +92,7 @@ class ArrayUtil {
 		return toArray;
 	}
 
-	public static inline function remove( array : Array<Dynamic>, value : Dynamic ) : Int {
+	public static inline function remove<T>( array : Array<T>, value : T ) : Int {
 
 		var index : Int = array.indexOf( value );
 		if ( index != -1 ) {
@@ -103,7 +103,7 @@ class ArrayUtil {
 	}
 
 	/* Shuffles an array */
-	public static function shuffle( array : Array<Dynamic> ) : Array<Dynamic>
+	public static function shuffle<T>( array : Array<T> ) : Array<T>
 	{
 		// http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 		var currentIndex : Int = array.length;
@@ -141,6 +141,7 @@ class ArrayUtil {
 	}
 
 	public static function sortFunctionRandom( a : Dynamic, b : Dynamic ) : Int {
+
 		return Math.round( Math.random() * 2 - 1 );
 	}
 
