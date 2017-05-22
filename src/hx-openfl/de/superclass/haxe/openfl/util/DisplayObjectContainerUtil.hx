@@ -22,9 +22,9 @@
 
 package de.superclass.haxe.openfl.util;
 
-import openfl.geom.Rectangle;
 import openfl.display.DisplayObject;
 import openfl.display.DisplayObjectContainer;
+import openfl.geom.Rectangle;
 
 /**
 	`DisplayObjectContainerUtil` provides simple helper methods to work with `DisplayObjectContainer` instances.
