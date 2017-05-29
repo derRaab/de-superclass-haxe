@@ -22,6 +22,7 @@
 
 package de.superclass.haxe.js.html;
 
+import de.superclass.haxe.util.ArrayUtil;
 import js.html.Storage;
 
 /**
@@ -120,14 +121,17 @@ class StorageContext {
     }
 
     /**
-		Will trace all key value pairs.
+		Creates a string representation of this instance.
 	**/
-    public function traceContext() : Void {
+    public function toString() : String {
 
         var contextKeys : Array<String> = getKeys();
+            contextKeys.sort( ArrayUtil.sortFunctionAscending );
+
         var c : Int = contextKeys.length;
 
-        trace( c + " key value pair(s) for storage context '" + _prefix + "'" );
+        var string : String = c + " key value pair(s) for storage context '" + _prefix + "'";
+
         if ( 0 < c ) {
 
             var context : String = _prefix;
@@ -136,8 +140,12 @@ class StorageContext {
             for ( i in 0...c ) {
 
                 var key : String = contextKeys[ i ];
-                trace( "'" + key + "' ---> '" + storage.getItem( context + key ) + "'" );
+
+                string += "\n" +  "'" + key + "' ---> '" + storage.getItem( context + key ) + "'";
             }
         }
+
+        return string;
+    }
     }
 }
