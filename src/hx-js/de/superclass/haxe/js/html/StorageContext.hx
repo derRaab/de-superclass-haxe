@@ -23,6 +23,7 @@
 package de.superclass.haxe.js.html;
 
 import de.superclass.haxe.util.ArrayUtil;
+import de.superclass.haxe.util.ReflectUtil;
 import js.html.Storage;
 
 /**
@@ -147,5 +148,32 @@ class StorageContext {
 
         return string;
     }
+
+    /**
+		Will create an untyped object containing all key values inside an prefix object.
+	**/
+    public function toDynamic() : Dynamic {
+
+        var context : String = _prefix;
+        var storage : Storage = _storage;
+
+        var object : Dynamic = {};
+        var keyValues : Dynamic = {};
+        ReflectUtil.setField( object, context, keyValues );
+
+        var contextKeys : Array<String> = getKeys();
+        var c : Int = contextKeys.length;
+        if ( 0 < c ) {
+
+            for ( i in 0...c ) {
+
+                var key : String = contextKeys[ i ];
+                var value : String = storage.getItem( context + key ) + "";
+
+                ReflectUtil.setField( keyValues, key, value );
+            }
+        }
+
+        return object;
     }
 }
