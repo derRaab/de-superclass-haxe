@@ -26,6 +26,7 @@ package de.superclass.haxe.js.util;
 	`StorageContextUtil` provides simple helper methods to work with `Browser.window.localStorage`.
 **/
 import de.superclass.haxe.js.html.StorageContext;
+import de.superclass.haxe.util.ArrayUtil;
 import de.superclass.haxe.util.UrlUtil;
 import js.Browser;
 
@@ -72,5 +73,31 @@ class StorageContextUtil {
     public static function createPageContextPrefix() : String {
 
         return UrlUtil.removeVars(  UrlUtil.removeHash( Browser.location.href ) ).toLowerCase();
+    }
+
+    /**
+		Set's the item just if changed.
+	**/
+    public static function changeItem( storageContext : StorageContext, key : String, value : String ) : Void {
+
+        if ( storageContext.getItem( key ) != value ) {
+
+            storageContext.setItem( key, value );
+        }
+    }
+
+    /**
+		Set's the item just if changed.
+	**/
+    public static function clear( storageContext : StorageContext ) : Void {
+
+        var keys : Array<String> = storageContext.getKeys();
+        if ( ArrayUtil.hasLength( keys ) ) {
+
+            for ( i in 0...keys.length ) {
+
+                storageContext.removeItem( keys[ i ] );
+            }
+        }
     }
 }
