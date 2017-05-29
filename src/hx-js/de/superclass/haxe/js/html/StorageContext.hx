@@ -20,61 +20,49 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
-package de.superclass.haxe.js.util;
+package de.superclass.haxe.js.html;
 
-/**
-	`LocalStorageUtil` provides simple helper methods to work with `Browser.window.localStorage`.
-**/
-import de.superclass.haxe.util.UrlUtil;
-import js.Browser;
 import js.html.Storage;
 
-class LocalStorageUtil {
+/**
+	`StorageContext` represents an storage context within an storage (represented by an unique prefix).
+**/
+class StorageContext {
 
-    private static var _context : String = createPageContext();
-    private static var _localStorage : Storage = Browser.window.localStorage;
+    private static var _prefix : String;
+    private static var _storage : Storage;
 
-    /**
-		Sets the local storage specific key prefix. If not set, the default value is `Browser.location.href` without vars and hash.
-	**/
-    public static function setContext( context : String ) : Void {
+    public function new( storage : Storage, prefix : String ) {
 
-        _context = context;
+        _storage = storage;
+        _prefix = prefix;
     }
 
     /**
-		Returns the local storage specific key prefix.
+		Returns the storage specific key prefix.
 	**/
-    public static function getContext() : String {
+    public function getPrefix() : String {
 
-        return _context;
-    }
-
-    /**
-		Creates an context `Browser.location.href` without vars and hash.
-	**/
-    public static function createPageContext() : String {
-
-        return UrlUtil.removeVars(  UrlUtil.removeHash( Browser.location.href ) ).toLowerCase();
+        return _prefix;
     }
 
     /**
 		Creates an list with all existing context keys.
 	**/
-    public static function getContextKeys() : Array<String> {
+    public function getKeys() : Array<String> {
 
         var contextKeys : Array<String> = [];
-        var localStorage : Storage = _localStorage;
+        var storage : Storage = _storage;
 
-        var c : Int = localStorage.length;
+        var c : Int = storage.length;
         if ( 0 < c ) {
 
-            var context : String = _context;
+            var context : String = _prefix;
             var contextLength : Int = context.length;
 
             for ( i in 0...c ) {
 
-                var key : String = localStorage.key( i );
+                var key : String = storage.key( i );
                 if ( contextLength < key.length ) {
 
                     if ( key.indexOf( context ) == 0 ) {
@@ -91,42 +79,42 @@ class LocalStorageUtil {
     /**
 		Will return that key's value.
 	**/
-    public static function getContextItem( key : String ) : String {
+    public function getItem( key : String ) : String {
 
-        return _localStorage.getItem( _context + key );
+        return _storage.getItem( _prefix + key );
     }
 
     /**
 		Will add that key to the storage, or update that key's value if it already exists.
 	**/
-    public static function setContextItem( key : String, value : String ) : Void {
+    public function setItem( key : String, value : String ) : Void {
 
-        return _localStorage.setItem( _context + key, value );
+        return _storage.setItem( _prefix + key, value );
     }
 
     /**
 		Will remove that key from the storage.
 	**/
-    public static function removeContextItem( key : String, value : String ) : Void {
+    public function removeItem( key : String, value : String ) : Void {
 
-        return _localStorage.removeItem( _context + key );
+        return _storage.removeItem( _prefix + key );
     }
 
     /**
 		Will empty all keys out of the storage.
 	**/
-    public static function clearContext() : Void {
+    public function clearContext() : Void {
 
-        var contextKeys : Array<String> = getContextKeys();
+        var contextKeys : Array<String> = getKeys();
         var c : Int = contextKeys.length;
         if ( 0 < c ) {
 
-            var context : String = _context;
-            var localStorage : Storage = _localStorage;
+            var context : String = _prefix;
+            var storage : Storage = _storage;
 
             for ( i in 0...c ) {
 
-                localStorage.removeItem( context + contextKeys[ i ] );
+                storage.removeItem( context + contextKeys[ i ] );
             }
         }
     }
@@ -134,21 +122,21 @@ class LocalStorageUtil {
     /**
 		Will trace all key value pairs.
 	**/
-    public static function traceContext() : Void {
+    public function traceContext() : Void {
 
-        var contextKeys : Array<String> = getContextKeys();
+        var contextKeys : Array<String> = getKeys();
         var c : Int = contextKeys.length;
 
-        trace( c + " key value pair(s) for local storage context '" + _context + "'" );
+        trace( c + " key value pair(s) for storage context '" + _prefix + "'" );
         if ( 0 < c ) {
 
-            var context : String = _context;
-            var localStorage : Storage = _localStorage;
+            var context : String = _prefix;
+            var storage : Storage = _storage;
 
             for ( i in 0...c ) {
 
                 var key : String = contextKeys[ i ];
-                trace( "'" + key + "' ---> '" + localStorage.getItem( context + key ) + "'" );
+                trace( "'" + key + "' ---> '" + storage.getItem( context + key ) + "'" );
             }
         }
     }
