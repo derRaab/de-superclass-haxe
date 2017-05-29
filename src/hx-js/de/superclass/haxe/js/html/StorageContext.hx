@@ -95,7 +95,7 @@ class StorageContext {
     /**
 		Will remove that key from the storage.
 	**/
-    public function removeItem( key : String, value : String ) : Void {
+    public function removeItem( key : String ) : Void {
 
         return _storage.removeItem( _prefix + key );
     }
