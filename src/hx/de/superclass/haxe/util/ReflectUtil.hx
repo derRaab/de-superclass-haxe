@@ -25,6 +25,7 @@ package de.superclass.haxe.util;
 /**
 	`ReflectUtil` provides simple helper methods for the reflect api.
 **/
+
 class ReflectUtil {
 
 	public static function getField( o : Dynamic, fieldName : String ) : Dynamic {
@@ -52,6 +53,15 @@ class ReflectUtil {
 			return o;
 		}
 		return null;
+	}
+
+	public static function ensureFieldNamed( o : Dynamic, fieldName : String, value : Dynamic ) : Void {
+
+		var currentValue : Dynamic = getField( o, fieldName );
+		if ( currentValue != value ) {
+
+			setField( o, fieldName, value );
+		}
 	}
 
 	public static function setField( o : Dynamic, fieldName : String, value : Dynamic ) : Void {
