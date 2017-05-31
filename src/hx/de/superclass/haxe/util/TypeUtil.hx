@@ -23,9 +23,21 @@
 package de.superclass.haxe.util;
 
 /**
-	`TypeUtil` provides simple helper methods for workin with `Type` api
+	`TypeUtil` provides simple helper methods for workin with types.
 **/
 class TypeUtil {
+
+	public static function castNull<T>( v : Dynamic, t : Class<T> ) : T {
+
+		if ( v != null ) {
+
+			if ( Std.is( v, t ) ) {
+
+				return v;
+			}
+		}
+		return null;
+	}
 
 	public static function getInstanceClassName( instance : Dynamic, ?withPackages = true ) : String {
 
