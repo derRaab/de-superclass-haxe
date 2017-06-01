@@ -27,5 +27,4 @@ page.onResourceError = function(resourceError) {
 page.open('bin/phantomjs.html', function(status) {
     var success = status === 'success' && !hasError;
     phantom.exit(success ? 0 : 1);
-});-cp flash
---run Install
+});
