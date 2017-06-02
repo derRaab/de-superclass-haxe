@@ -43,7 +43,7 @@ class Install {
 				// Download and unzip flash player
 				if (command("wget", [fpDownload]) != 0)
 					throw "failed to download flash player";
-				if (command("tar", ["-xf", Path.withoutDirectory(fpDownload), "-C", "dev/flash"]) != 0)
+				if (command("tar", ["-xf", Path.withoutDirectory(fpDownload), "-C", "flash"]) != 0)
 					throw "failed to extract flash player";
 			case "Mac":
 				// https://github.com/caskroom/homebrew-cask/pull/15381
