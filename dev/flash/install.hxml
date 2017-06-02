@@ -1,2 +1,2 @@
--cp flash
+-cp dev/flash
 --run Install
