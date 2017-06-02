@@ -1,4 +1,4 @@
-package
+package;
 import Sys.*;
 import sys.io.File.*;
 import haxe.*;
