@@ -44,6 +44,7 @@ class Install {
 		trace( "mmcfg", mmcfg );
 		trace( "fpTrust", fpTrust );
 		trace( "systemName()", systemName() );
+		trace( "getCwd()", getCwd() );
 
 
 		switch (systemName()) {
@@ -56,7 +57,7 @@ class Install {
 				if (command("wget", [fpDownload]) != 0)
 					throw "failed to download flash player";
 
-					trace( "case Linux 2" );
+					trace( "case Linux 2", getCwd() );
 
 				if (command("tar", ["-xf", Path.withoutDirectory(fpDownload), "-C", "flash"]) != 0)
 					throw "failed to extract flash player";
