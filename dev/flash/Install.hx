@@ -92,7 +92,8 @@ class Install {
 	trace( "createDirectory(fpTrust)" );
 		// Add the current directory as trusted, so exit() can be used
 		createDirectory(fpTrust);
-	trace( "saveContent(Path.join([fpTrust, "test.cfg"]), getCwd()" );
+
+	trace( 'saveContent(Path.join([fpTrust, "test.cfg"]), getCwd())' );
 	trace( 'Path.join([fpTrust, "test.cfg"])', Path.join([fpTrust, "test.cfg"]) );
 	trace( 'getCwd()', getCwd() );
 		saveContent(Path.join([fpTrust, "test.cfg"]), getCwd());
