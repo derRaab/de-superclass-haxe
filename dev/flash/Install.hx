@@ -59,7 +59,7 @@ class Install {
 
 					trace( "case Linux 2", getCwd() );
 
-				if (command("tar", ["-xf", Path.withoutDirectory(fpDownload), "-C", "flash"]) != 0)
+				if (command("tar", ["-xf", Path.withoutDirectory(fpDownload), "-C", "dev/flash"]) != 0)
 					throw "failed to extract flash player";
 
 					trace( "case Linux 3" );
