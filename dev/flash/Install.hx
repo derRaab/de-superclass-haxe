@@ -57,9 +57,9 @@ class Install {
 				if (command("wget", [fpDownload]) != 0)
 					throw "failed to download flash player";
 
-					trace( "case Linux 2", getCwd() );
+					trace( "case Linux 2Goo", getCwd() );
 
-				if (command("tar", ["-xf", Path.withoutDirectory(fpDownload), "-C", "dev/flash"]) != 0)
+				if (command("tar", ["-xf", Path.withoutDirectory(fpDownload), "-C",  getCwd() + "dev/flash"]) != 0)
 					throw "failed to extract flash player";
 
 					trace( "case Linux 3" );
