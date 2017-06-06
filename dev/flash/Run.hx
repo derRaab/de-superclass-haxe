@@ -31,7 +31,7 @@ class Run {
 				// but if it runs about 16 times, it should succeed one of those...
 				var c = -1;
 				for (i in 0...16) {
-					if ((c = command("xvfb-run", ["-a", "dev/flash/flashplayerdebugger", swf])) == 0)
+					if ((c = command("xvfb-run", ["-a", getCwd() + "dev/flash/flashplayerdebugger", swf])) == 0)
 					break;
 					println('retry... (${i+1})');
 					sleep(1.5);
@@ -40,7 +40,7 @@ class Run {
 			case "Mac":
 				command("/Applications/Flash Player Debugger.app/Contents/MacOS/Flash Player Debugger", [fullPath(swf)]);
 			case "Windows":
-				command("dev\\flash\\flashplayer.exe", [fullPath(swf)]);
+				command(getCwd() + "dev\\flash\\flashplayer.exe", [fullPath(swf)]);
 			case _:
 				throw "unsupported platform";
 			}
