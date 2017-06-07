@@ -9,8 +9,8 @@ using StringTools;
     Test a JS file in PhantomJS.
 */
 class Run {
-	static var phantomjsRunner(default, never) = "phantomjs/phantomjs.js";
-	static var phantomjsHtml(default, never) = "phantomjs/phantomjs.html";
+	static var phantomjsRunner(default, never) = "dev/phantomjs/phantomjs.js";
+	static var phantomjsHtml(default, never) = "dev/phantomjs/phantomjs.html";
 	static function main() {
 		var args = args();
 		var jsFile = fullPath(args[0]);
