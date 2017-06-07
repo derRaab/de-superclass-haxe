@@ -1,2 +1,2 @@
-build-each.hxml
+dev/ci/build-each.hxml
 -php bin
