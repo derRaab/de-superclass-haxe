@@ -77,7 +77,7 @@ class Install {
 
 				trace( "case Windows" );
 				// Download flash player
-				download(fpDownload, "flash\\flashplayer.exe");
+				download(fpDownload, "dev\\flash\\flashplayer.exe");
 			case _:
 				throw "unsupported system";
 		}
