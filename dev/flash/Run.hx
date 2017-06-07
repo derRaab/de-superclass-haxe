@@ -48,7 +48,7 @@ class Run {
 		if (exists(flashlog)) {
 
 			println(getContent(flashlog));
-
+		}
 		else {
 
 			println('does not exist: $flashlog');
