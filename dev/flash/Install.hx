@@ -39,33 +39,19 @@ class Install {
 	}
 	static function main() {
 
-		trace( "main()" );
-		trace( "fpDownload", fpDownload );
-		trace( "mmcfg", mmcfg );
-		trace( "fpTrust", fpTrust );
-		trace( "systemName()", systemName() );
-		trace( "getCwd()", getCwd() );
-
-
 		switch (systemName()) {
 
 			case "Linux":
-
-					trace( "case Linux" );
 
 				// Download and unzip flash player
 				if (command("wget", [fpDownload]) != 0)
 					throw "failed to download flash player";
 
-					trace( "case Linux 2Goo", getCwd() );
-
 				if (command("tar", ["-xf", Path.withoutDirectory(fpDownload), "-C",  getCwd() + "dev/flash"]) != 0)
 					throw "failed to extract flash player";
 
-					trace( "case Linux 3" );
 			case "Mac":
 
-				trace( "case Mac" );
 				// https://github.com/caskroom/homebrew-cask/pull/15381
 				if (command("brew", ["uninstall", "--force", "brew-cask"]) != 0)
 					throw "failed to brew uninstall --force brew-cask";
@@ -75,28 +61,19 @@ class Install {
 					throw "failed to install flash-player-debugger";
 			case "Windows":
 
-				trace( "case Windows" );
 				// Download flash player
 				download(fpDownload, "dev\\flash\\flashplayer.exe");
 			case _:
 				throw "unsupported system";
 		}
 
-		trace( "createDirectory()" );
-		trace( "Path.directory(mmcfg)", Path.directory(mmcfg) );
-
 		// Create a configuration file so the trace log is enabled
 		createDirectory(Path.directory(mmcfg));
-		trace( "saveContent()" );
 		saveContent(mmcfg, "ErrorReportingEnable=1\nTraceOutputFileEnable=1");
 
-	trace( "createDirectory(fpTrust)" );
 		// Add the current directory as trusted, so exit() can be used
 		createDirectory(fpTrust);
 
-	trace( 'saveContent(Path.join([fpTrust, "test.cfg"]), getCwd())' );
-	trace( 'Path.join([fpTrust, "test.cfg"])', Path.join([fpTrust, "test.cfg"]) );
-	trace( 'getCwd()', getCwd() );
 		saveContent(Path.join([fpTrust, "test.cfg"]), getCwd());
 	}
 	static function download(url:String, saveAs:String):Void {
