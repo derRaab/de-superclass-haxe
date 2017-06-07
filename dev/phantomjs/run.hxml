@@ -1,2 +1,2 @@
--cp phantomjs
+-cp dev/phantomjs
 --run Run
