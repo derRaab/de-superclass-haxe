@@ -34,13 +34,13 @@ install:
 build: off
 
 test_script:
-  - haxe build-interp.hxml
-  - haxe build-neko.hxml         && neko bin\HelloWorld.n
-  - haxe build-js.hxml           && node bin\HelloWorld.js
-                                 && haxe dev\phantomjs\run.hxml bin\HelloWorld.js
-  - haxe build-java.hxml         && java -jar bin\HelloWorld.jar
-  - haxe build-php.hxml          && php bin\index.php
-  - haxe build-cs.hxml           && bin\bin\HelloWorld.exe
-  - haxe build-flash.hxml -D fdb && haxe dev\flash\run.hxml bin\HelloWorld.swf
-  - haxe build-cpp.hxml          && bin\HelloWorld.exe
-  - haxe build-python.hxml       && C:\Python34-x64\python.exe bin/HelloWorld.py
+  - haxe dev/ci/build-interp.hxml
+  - haxe dev/ci/build-neko.hxml         && neko bin\HelloWorld.n
+  - haxe dev/ci/build-js.hxml           && node bin\HelloWorld.js
+                                        && haxe dev\phantomjs\run.hxml bin\HelloWorld.js
+  - haxe dev/ci/build-java.hxml         && java -jar bin\HelloWorld.jar
+  - haxe dev/ci/build-php.hxml          && php bin\index.php
+  - haxe dev/ci/build-cs.hxml           && bin\bin\HelloWorld.exe
+  - haxe dev/ci/build-flash.hxml -D fdb && haxe dev\flash\run.hxml bin\HelloWorld.swf
+  - haxe dev/ci/build-cpp.hxml          && bin\HelloWorld.exe
+  - haxe dev/ci/build-python.hxml       && C:\Python34-x64\python.exe bin/HelloWorld.py
