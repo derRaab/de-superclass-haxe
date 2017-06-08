@@ -11,7 +11,7 @@ class ArrayUtilTestCase extends TestCase {
         var strings : Array<String> = [ "a", "b", "c", "d", "e", "f" ];
         var instances : Array<TestCase> = [ new TestCase(), new TestCase(), new TestCase() ];
 
-        assertTrue( ArrayUtil.contains( floats, 0 ) );
+        assertTrue( ArrayUtil.contains( floats, 0.0 ) );
         assertTrue( ArrayUtil.contains( floats, 9.9 ) );
         assertFalse( ArrayUtil.contains( floats, 10.10 ) );
 
