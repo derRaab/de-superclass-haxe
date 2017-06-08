@@ -1,6 +1,13 @@
 -main TestMainHx
+
 -cp src/hx
 -cp src/hx-as
 -cp src/hx-js
 -cp src/hx-openfl
 -cp src/hx-sys
+
+-cp test/hx
+-cp test/hx-as
+-cp test/hx-js
+-cp test/hx-openfl
+-cp test/hx-sys
