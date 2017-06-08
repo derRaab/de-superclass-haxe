@@ -8,7 +8,7 @@ class ArrayUtilTestCase extends TestCase {
     public function testContains() {
 
         var floats : Array<Float> = [ 0.0, 1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9 ];
-        var strings : Array<Int> = [ "a", "b", "c", "d", "e", "f" ];
+        var strings : Array<String> = [ "a", "b", "c", "d", "e", "f" ];
         var instances : Array<TestCase> = [ new TestCase(), new TestCase(), new TestCase() ];
 
         assertTrue( ArrayUtil.contains( floats, 0 ) );
