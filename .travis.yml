@@ -74,12 +74,12 @@ install:
 
 script:
   - haxe dev/ci/build-interp.hxml
-  - haxe dev/ci/build-neko.hxml         && neko bin/HelloWorld.n
-  - haxe dev/ci/build-js.hxml           && node bin/HelloWorld.js
-                                        && haxe dev/phantomjs/run.hxml bin/HelloWorld.js
-  - haxe dev/ci/build-java.hxml         && java -jar bin/HelloWorld.jar
+  - haxe dev/ci/build-neko.hxml         && neko bin/TestMain.n
+  - haxe dev/ci/build-js.hxml           && node bin/TestMain.js
+                                        && haxe dev/phantomjs/run.hxml bin/TestMain.js
+  - haxe dev/ci/build-java.hxml         && java -jar bin/TestMain.jar
   - haxe dev/ci/build-php.hxml          && php bin/index.php
-  - haxe dev/ci/build-cs.hxml           && mono bin/bin/HelloWorld.exe
-  - haxe dev/ci/build-flash.hxml -D fdb && haxe dev/flash/run.hxml bin/HelloWorld.swf
-  - haxe dev/ci/build-cpp.hxml          && ./bin/HelloWorld
-  - haxe dev/ci/build-python.hxml       && python3 bin/HelloWorld.py
+  - haxe dev/ci/build-cs.hxml           && mono bin/bin/TestMain.exe
+  - haxe dev/ci/build-flash.hxml -D fdb && haxe dev/flash/run.hxml bin/TestMain.swf
+  - haxe dev/ci/build-cpp.hxml          && ./bin/TestMain
+  - haxe dev/ci/build-python.hxml       && python3 bin/TestMain.py

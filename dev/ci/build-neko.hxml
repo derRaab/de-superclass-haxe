@@ -1,2 +1,2 @@
 dev/ci/build-each.hxml
--neko bin/HelloWorld.n
+-neko bin/TestMain.n
