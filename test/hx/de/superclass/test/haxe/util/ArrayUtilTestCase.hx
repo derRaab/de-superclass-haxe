@@ -9,7 +9,7 @@ class ArrayUtilTestCase extends TestCase {
 
         var floats : Array<Float> = [ 0.0, 1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9 ];
         var strings : Array<String> = [ "a", "b", "c", "d", "e", "f" ];
-        var instances : Array<TestCase> = [ new TestCase(), new TestCase(), new TestCase() ];
+        var instances : Array<TestClass> = [ new TestClass(), new TestClass(), new TestClass() ];
 
         assertTrue( ArrayUtil.contains( floats, 0.0 ) );
         assertTrue( ArrayUtil.contains( floats, 9.9 ) );
@@ -22,7 +22,31 @@ class ArrayUtilTestCase extends TestCase {
 
         assertTrue( ArrayUtil.contains( instances, instances[ 0 ] ) );
         assertTrue( ArrayUtil.contains( instances, instances[ instances.length - 1 ] ) );
-        assertFalse( ArrayUtil.contains( instances, new TestCase() ) );
+        assertFalse( ArrayUtil.contains( instances, new TestClass() ) );
         assertFalse( ArrayUtil.contains( instances, null ) );
+    }
+
+    public function testDetectFirstUsedValue() {
+
+        var floats : Array<Float> = [ 0.0, 1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9 ];
+        var strings : Array<String> = [ "a", "b", "c", "d", "e", "f" ];
+        var instances : Array<TestClass> = [ new TestClass(), new TestClass(), new TestClass() ];
+
+        assertEquals( ArrayUtil.detectFirstUsedValue( floats, [ 9.9, 0.0 ] ), 9.9 );
+        assertEquals( ArrayUtil.detectFirstUsedValue( floats, [ 3.3, 4.4 ] ), 3.3 );
+        assertEquals( ArrayUtil.detectFirstUsedValue( floats, [ 11.11, 8.8 ] ), 8.8 );
+        assertEquals( ArrayUtil.detectFirstUsedValue( floats, [ 10.10 ] ), null );
+
+        assertEquals( ArrayUtil.detectFirstUsedValue( strings, [ "f", "a" ] ), "f" );
+        assertEquals( ArrayUtil.detectFirstUsedValue( strings, [ "b", "d" ] ), "b" );
+        assertEquals( ArrayUtil.detectFirstUsedValue( strings, [ "g", "d" ] ), "d" );
+        assertEquals( ArrayUtil.detectFirstUsedValue( strings, [ "g", "H" ] ), null );
+
+        assertEquals( ArrayUtil.detectFirstUsedValue( instances, [ instances[ 0 ], instances[ 1 ] ] ), instances[ 0 ] );
+        assertEquals( ArrayUtil.detectFirstUsedValue( instances, [ instances[ 2 ], instances[ 1 ] ] ), instances[ 2 ] );
+        assertEquals( ArrayUtil.detectFirstUsedValue( instances, [ null, instances[ 1 ] ] ), instances[ 1 ] );
+        assertEquals( ArrayUtil.detectFirstUsedValue( instances, [ instances[ 1 ], null ] ), instances[ 1 ] );
+        assertEquals( ArrayUtil.detectFirstUsedValue( instances, [ instances[ 1 ] ] ), instances[ 1 ] );
+        assertEquals( ArrayUtil.detectFirstUsedValue( instances, [ new TestClass() ] ), null );
     }
 }
