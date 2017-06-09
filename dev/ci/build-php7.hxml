@@ -1,2 +1,3 @@
 dev/ci/build-each.hxml
--php bin/php
+-D php7
+-php bin/php7

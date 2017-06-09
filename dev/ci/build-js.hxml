@@ -1,2 +1,2 @@
 dev/ci/build-each.hxml
--js bin/TestMain.js
+-js bin/js/TestMainHx.js

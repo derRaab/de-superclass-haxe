@@ -1,2 +1,2 @@
 dev/ci/build-each.hxml
--swf bin/TestMain.swf
+-swf bin/flash/TestMainHx.swf

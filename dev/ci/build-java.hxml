@@ -1,2 +1,2 @@
 dev/ci/build-each.hxml
--java bin
+-java bin/java

@@ -1,2 +1,2 @@
 dev/ci/build-each.hxml
--python bin/TestMain.py
+-python bin/python/TestMainHx.py
