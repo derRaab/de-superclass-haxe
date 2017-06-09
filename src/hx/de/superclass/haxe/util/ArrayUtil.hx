@@ -27,11 +27,18 @@ package de.superclass.haxe.util;
 **/
 class ArrayUtil {
 
+	/**
+		Returns `true` if an array contains the `value`. Otherwise `false`.
+	**/
 	public static inline function contains<T>( array : Array<T>, value : T ) : Bool {
 
 		return ( array.indexOf( value ) != -1 );
 	}
 
+
+	/**
+		Checks if a value from `detectValuesOrder` is used in and array and returns it. Otherwise `null`.
+	**/
 	public static function detectFirstUsedValue<T>( array : Array<T>, detectValuesOrder : Array<T>, ?fallback : T = null ) : T {
 
 		for ( i in 0...detectValuesOrder.length ) {
