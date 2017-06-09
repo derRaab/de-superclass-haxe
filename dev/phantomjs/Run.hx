@@ -19,7 +19,7 @@ class Run {
 		var html = tmpl.execute({
 			jsFile: Path.withoutDirectory(jsFile)
 		});
-		saveContent(Path.join([Path.directory(jsFile), "js/phantomjs.html"]), html);
+		saveContent(Path.join([Path.directory(jsFile), "phantomjs.html"]), html);
 
 		var exitCode = command("phantomjs", [phantomjsRunner]);
 		exit(exitCode);
