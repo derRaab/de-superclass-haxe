@@ -39,7 +39,7 @@ class ArrayUtil {
 	/**
 		Checks if a value from `detectValuesOrder` is used in and array and returns it. Otherwise `null`.
 	**/
-	public static function detectFirstUsedValue<T>( array : Array<T>, detectValuesOrder : Array<T>, ?fallback : T = null ) : T {
+	public static function detectFirstUsedValue<T>( array : Array<T>, detectValuesOrder : Array<T>, ?fallback : Null<T> = null ) : T {
 
 		for ( i in 0...detectValuesOrder.length ) {
 

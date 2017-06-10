@@ -35,7 +35,8 @@ class ArrayUtilTestCase extends TestCase {
         assertEquals( ArrayUtil.detectFirstUsedValue( floats, [ 9.9, 0.0 ] ), 9.9 );
         assertEquals( ArrayUtil.detectFirstUsedValue( floats, [ 3.3, 4.4 ] ), 3.3 );
         assertEquals( ArrayUtil.detectFirstUsedValue( floats, [ 11.11, 8.8 ] ), 8.8 );
-        assertEquals( ArrayUtil.detectFirstUsedValue( floats, [ 10.10 ] ), null );
+        assertEquals( ArrayUtil.detectFirstUsedValue( floats, [ 10.10 ], 0.0 ), 0.0 );
+        assertEquals( ArrayUtil.detectFirstUsedValue( floats, [ 10.10 ], 0.0 ), 0.0 );
 
         assertEquals( ArrayUtil.detectFirstUsedValue( strings, [ "f", "a" ] ), "f" );
         assertEquals( ArrayUtil.detectFirstUsedValue( strings, [ "b", "d" ] ), "b" );
