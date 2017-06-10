@@ -111,5 +111,6 @@ class ArrayUtilTestCase extends TestCase {
         assertFalse( ArrayUtil.hasLength( floats  ) );
         assertFalse( ArrayUtil.hasLength( strings  ) );
         assertFalse( ArrayUtil.hasLength( instances  ) );
+        assertFalse( ArrayUtil.hasLength( instances  ) );
     }
 }
