@@ -35,7 +35,6 @@ class ArrayUtil {
 		return ( array.indexOf( value ) != -1 );
 	}
 
-
 	/**
 		Checks if a value from `detectValuesOrder` is used in and array and returns it. Otherwise `null`.
 	**/
@@ -53,6 +52,9 @@ class ArrayUtil {
 		return fallback;
 	}
 
+	/**
+		Fill up an array with the `value` until it reaches `maxlength`.
+	**/
 	public static inline function fill<T>( array : Array<T>, maxLength : Int, value : T ) : Array<T> {
 
 		for ( i in array.length...maxLength ) {
@@ -62,7 +64,10 @@ class ArrayUtil {
 		return array;
 	}
 
-	public static function getValueFollowing<T>( array : Array<T>, value : T ) : T {
+	/**
+		Finds `value` in an array and returns the value after it.
+	**/
+	public static function getValueFollowing<T>( array : Array<T>, value : T ) : Null<T> {
 
 		var index : Int = array.indexOf( value );
 		if ( index != -1 && index < array.length - 1 ) {
@@ -72,6 +77,9 @@ class ArrayUtil {
 		return null;
 	}
 
+	/**
+		Returns true if `array` is not null and has a length greater than 0. Otherwise false.
+	**/
 	public static inline function hasLength<T>( array : Array<T> ) : Bool {
 
 		return ( array != null && 0 < array.length );
