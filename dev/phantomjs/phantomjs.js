@@ -24,7 +24,7 @@ page.onResourceError = function(resourceError) {
     console.error('Error code: ' + resourceError.errorCode + '. Description: ' + resourceError.errorString);
 };
 
-page.open('bin/phantomjs.html', function(status) {
+page.open('bin/js/phantomjs.html', function(status) {
     var success = status === 'success' && !hasError;
     phantom.exit(success ? 0 : 1);
 });
