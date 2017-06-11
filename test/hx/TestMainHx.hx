@@ -1,10 +1,12 @@
 package;
 
+import de.superclass.haxe.util.HaxeTargetUtil;
+
 class TestMainHx {
 
     static function main() {
 
-        trace( "TestMainHx.main()" );
+        trace( "\n\n|\n|\n|\n| TestMainHx.main() on target '" + HaxeTargetUtil.getTarget() + "'\n|\n|\n|\n" );
 
         var r = new haxe.unit.TestRunner();
 
