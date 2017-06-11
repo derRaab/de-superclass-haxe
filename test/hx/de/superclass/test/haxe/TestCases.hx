@@ -1,5 +1,6 @@
 package de.superclass.test.haxe;
 
+import de.superclass.test.haxe.util.BoolUtilTestCase;
 import de.superclass.test.haxe.util.AsciiUtilTestCase;
 import de.superclass.test.haxe.util.ArrayUtilTestCase;
 import haxe.unit.TestRunner;
@@ -10,6 +11,7 @@ class TestCases {
         
         r.add( new ArrayUtilTestCase() );
         r.add( new AsciiUtilTestCase() );
+        r.add( new BoolUtilTestCase() );
 
         return r;
     }
