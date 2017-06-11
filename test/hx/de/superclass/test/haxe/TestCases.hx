@@ -4,6 +4,7 @@ import de.superclass.test.haxe.util.ArrayUtilTestCase;
 import de.superclass.test.haxe.util.AsciiUtilTestCase;
 import de.superclass.test.haxe.util.BoolUtilTestCase;
 import de.superclass.test.haxe.util.BytesUtilTestCase;
+import de.superclass.test.haxe.util.ColorUtilTestCase;
 import haxe.unit.TestRunner;
 
 class TestCases {
@@ -14,6 +15,7 @@ class TestCases {
         r.add( new AsciiUtilTestCase() );
         r.add( new BoolUtilTestCase() );
         r.add( new BytesUtilTestCase() );
+        r.add( new ColorUtilTestCase() );
 
         return r;
     }
