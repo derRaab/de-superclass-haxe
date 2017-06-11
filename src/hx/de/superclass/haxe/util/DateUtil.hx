@@ -27,6 +27,7 @@ package de.superclass.haxe.util;
 **/
 class DateUtil {
 
+    private inline static var _TIME_SEPARATOR : String = "T";
     private inline static var _TIME_ZONE_DESIGNATOR_UTC : String = "Z";
     private inline static var _TIME_ZONE_DESIGNATOR_PLUS : String = "+";
     private inline static var _TIME_ZONE_DESIGNATOR_MINUS : String = "-";
@@ -208,11 +209,11 @@ class DateUtil {
             return plusIndex;
         }
 
-        var colonIndex : Int = w3cDtf.lastIndexOf( ":" );
-        if ( colonIndex != -1 ) {
+        var timeSeparatorIndex : Int = w3cDtf.lastIndexOf( _TIME_SEPARATOR );
+        if ( timeSeparatorIndex != -1 ) {
 
-            var minusIndex : Int = w3cDtf.lastIndexOf( _TIME_ZONE_DESIGNATOR_MINUS );
-            if ( minusIndex != -1 && colonIndex < minusIndex ) {
+            var minusIndex : Int = w3cDtf.indexOf( _TIME_ZONE_DESIGNATOR_MINUS, timeSeparatorIndex );
+            if ( minusIndex != -1 ) {
 
                 return minusIndex;
             }
