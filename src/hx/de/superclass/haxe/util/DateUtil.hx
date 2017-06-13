@@ -25,6 +25,8 @@ package de.superclass.haxe.util;
 /**
 	`DateUtil` provides simple helper methods to work with `Date` instances and related time values.
 **/
+import de.superclass.haxe.util.TimeUtil;
+
 class DateUtil {
 
     private static var _localTimezoneOffsetSeconds : Float = -1;
@@ -272,5 +274,71 @@ class DateUtil {
         }
 
         return offsetSeconds;
+    }
+
+    /**
+		Returns the `date` as w3c date time format als described here: https://www.w3.org/TR/NOTE-datetime.
+	**/
+    public static function toW3cDtf( date : Date, ?secondFractionDigits : Int = 3, ?timezoneDesignator : Bool = true ) : String {
+
+        var dtf : String = "";
+
+        dtf += date.getFullYear();
+        dtf += "-";
+        dtf += StringUtil.fillLeft( Std.string( date.getMonth() + 1 ), "0" , 2);
+        dtf += "-";
+        dtf += StringUtil.fillLeft( Std.string( date.getDate() ), "0" , 2 );
+        dtf += "T";
+        dtf += StringUtil.fillLeft( Std.string( date.getHours() ), "0", 2 );
+        dtf += ":";
+        dtf += StringUtil.fillLeft( Std.string( date.getMinutes() ), "0", 2 );
+        dtf += ":";
+        dtf += StringUtil.fillLeft( Std.string( date.getSeconds() ), "0", 2 );
+
+        if ( 0 < secondFractionDigits ) {
+
+            var millisecondStamp : Float = date.getTime();
+            var secondStamp : Float = millisecondStamp / 1000;
+            var secondFractions : Float = FloatUtil.getFractions( secondStamp );
+            if ( 0 < secondFractions ) {
+
+                secondFractions = FloatUtil.fixed( secondFractions, secondFractionDigits );
+                if ( 0 < secondFractions ) {
+
+                    var secondFractionString : String = "" + secondFractions;
+                    dtf += secondFractionString.substr( 1 );
+                }
+            }
+        }
+
+        if ( timezoneDesignator ) {
+
+            var timezoneOffsetSeconds : Float = getDefaultTimezoneOffsetSeconds();
+            if ( timezoneOffsetSeconds == 0 ) {
+
+                dtf += _TIME_ZONE_DESIGNATOR_UTC;
+            }
+            else {
+
+                if ( timezoneOffsetSeconds < 0 ) {
+
+                    timezoneOffsetSeconds *= -1;
+                    dtf += _TIME_ZONE_DESIGNATOR_MINUS;
+                }
+                else {
+
+                    dtf += _TIME_ZONE_DESIGNATOR_PLUS;
+                }
+
+                var timezoneOffsetSecondsString : String = TimeUtil.secondsToPlaybackString( timezoneOffsetSeconds );
+                if ( timezoneOffsetSecondsString.indexOf( ":" ) == 1 ) {
+
+                    timezoneOffsetSecondsString = "0" + timezoneOffsetSecondsString;
+                }
+                dtf += timezoneOffsetSecondsString.substring( 0, timezoneOffsetSecondsString.lastIndexOf( ":" ) );
+            }
+        }
+
+        return dtf;
     }
 }
