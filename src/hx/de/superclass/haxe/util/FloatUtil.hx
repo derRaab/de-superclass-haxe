@@ -120,4 +120,23 @@ class FloatUtil {
 		return Math.isNaN( float );
 		#end
 	}
+
+	/**
+		Returns only the `float`s fractions.
+	**/
+	public static function getFractions( float : Float ) : Float {
+
+		if ( float < 0 ) {
+
+			return float + Math.ceil( float );
+		}
+		else if ( 0 < float ) {
+
+			return float - Math.floor( float );
+		}
+		else {
+
+			return 0;
+		}
+	}
 }
