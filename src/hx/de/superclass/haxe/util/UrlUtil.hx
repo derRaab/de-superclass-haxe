@@ -453,6 +453,19 @@ class UrlUtil {
 		return fileProtocolUrl;
 	}
 
+	/** Converts an file protocol url to windows native path. Example: file:///users/user/path/to/file.ext -> /users/user/path/to/file.ext **/
+	public static function toMacNativePath( fileProtocolUrl : String ) : String {
+
+		var removePrefix : String = "file://";
+
+		if ( StringUtil.startsWith( fileProtocolUrl, removePrefix ) ) {
+
+			fileProtocolUrl = fileProtocolUrl.substr( removePrefix.length );
+		}
+
+		return fileProtocolUrl;
+	}
+
 	/** Creats a mailto: protocol url based on the the given parameters. See https://en.wikipedia.org/wiki/Mailto **/
 	public static function createMailto( toAddresses : Array<String>, subject : String, body : String, ?ccAddresses : Array<String> = null, ?bccAddresses : Array<String> = null, ?addressSeparator : String = "," ) : String
 	{
