@@ -295,4 +295,85 @@ class StringUtil {
 
 		return string;
 	}
+
+	public static function splitChunks( string : String, chunks : Array<String>, ?chunksIndex : Int = 0 ) : Array<String> {
+
+		var stringMap : Map<String,String> = new Map<String,String>();
+
+		for ( i in 0...chunks.length ) {
+
+			var chunk : String = chunks[ i ];
+			stringMap.set( chunk, chunk );
+		}
+
+		var strings : Array<String> = [ string ];
+		var i : Int = 0;
+		var c : Int = strings.length;
+
+		while ( i < c ) {
+
+			var string : String = strings[ i ];
+
+			var isChunk : Bool = stringMap.exists( string );
+			if ( ! isChunk ) {
+
+				var stringLength : Int = string.length;
+
+				// Search for another chunk
+				for ( ii in 0...chunks.length ) {
+
+					var chunk : String = chunks[ ii ];
+					if ( chunk != string && chunk.length <= string.length ) {
+
+						if ( contains( string, chunk ) ) {
+
+							// Ok - found containing chunk
+							var newStrings : Array<String> = [];
+
+							// push every string before current string
+							var pushIndex : Int = 0;
+							var pushCount : Int = i;
+							while ( pushIndex < pushCount ) {
+
+								newStrings[ newStrings.length ] = strings[ pushIndex ];
+								pushIndex++;
+							}
+
+							// Add
+							var stringsSplitByChunk : Array<String> = string.split( chunk );
+							for ( iii in 0...stringsSplitByChunk.length ) {
+
+								if ( 0 < iii ) {
+
+									newStrings[ newStrings.length ] = chunk;
+								}
+
+								var stringSplitByChunk : String = stringsSplitByChunk[ iii ];
+								newStrings[ newStrings.length ] = stringSplitByChunk;
+							}
+
+							// push every string after current string
+							pushIndex = i + 1;
+							pushCount = c;
+							while ( pushIndex < pushCount ) {
+
+								newStrings[ newStrings.length ] = strings[ pushIndex ];
+								pushIndex++;
+							}
+
+							// Start from the beginning
+							strings = newStrings;
+
+							i = -1;
+							c = strings.length;
+							break;
+						}
+					}
+				}
+			}
+			i++;
+		}
+
+		return strings;
+	}
 }
