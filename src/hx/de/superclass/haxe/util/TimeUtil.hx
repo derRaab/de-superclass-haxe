@@ -94,10 +94,14 @@ class TimeUtil {
 			if ( hasFractions ) {
 
 				fractionsString = fractionsString.substr( fractionsStringStartIndex );
+				while ( fractionsString.length < 4 ) {
+
+					fractionsString += "0";
+				}
 			}
 			else {
 
-				fractionsString = "";
+				fractionsString = ".000";
 			}
 
 			seconds = Math.floor( seconds );
