@@ -158,4 +158,65 @@ class TimeUtil {
 
 		return string;
 	}
+
+	/**
+		Parses a nicely for formatted time period string to `seconds`(e.g. 00:00:01.000 -> 1).
+
+		By default `separator = :` is used as convenient separator
+	**/
+	public static function playbackStringToSeconds( playbackString : String, ?separator : String = ":" ) : Float {
+
+		if ( playbackString != null ) {
+
+			playbackString = StringUtil.trim( playbackString );
+
+			if ( StringUtil.hasLength( playbackString ) ) {
+
+				if ( StringUtil.contains( playbackString, separator ) ) {
+
+					var partStrings : Array<String> = playbackString.split( separator );
+					var partFloats : Array<Float> = [];
+					for ( i in 0...partStrings.length ) {
+
+						var partString : String = partStrings[ i ];
+						var partFloat : Float = Std.parseFloat( partString );
+						if ( FloatUtil.isNaN( partFloat ) ) {
+
+							return partFloat;
+						}
+
+						partFloats[ partFloats.length ] = partFloat;
+					}
+
+					partFloats.reverse();
+
+					var seconds : Float = 0;
+
+					for ( i in 0...partFloats.length ) {
+
+						var partFloat : Float = partFloats[ i ];
+						if ( i == 0 ) {
+
+							// seconds
+							seconds += partFloat;
+						}
+						else if ( i == 1 ) {
+
+							// minutes
+							seconds += partFloat * 60;
+						}
+						else if ( i == 2 ) {
+
+							// hours
+							seconds += partFloat * 60 * 60;
+						}
+					}
+
+					return seconds;
+				}
+			}
+		}
+
+		return Math.NaN;
+	}
 }
