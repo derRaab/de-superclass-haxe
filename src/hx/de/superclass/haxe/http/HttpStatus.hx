@@ -70,4 +70,29 @@ class HttpStatus {
     public static inline var SERVER_ERROR_508_LOOP_DETECTED (default, never) : Int = 508;
     public static inline var SERVER_ERROR_510_NOT_EXTENDED (default, never) : Int = 510;
     public static inline var SERVER_ERROR_511_NETWORK_AUTHENTICATION_REQUIRED (default, never) : Int = 511;
+
+    public static function isInfo( status : Int ) : Bool {
+
+        return ( INFO_100_CONTINUE <= status && status < SUCCESS_200_OK );
+    }
+
+    public static function isSuccess( status : Int ) : Bool {
+
+        return ( SUCCESS_200_OK <= status && status < REDIRECTION_300_MULTIPLE_PURPOSES );
+    }
+
+    public static function isRedirection( status : Int ) : Bool {
+
+        return ( REDIRECTION_300_MULTIPLE_PURPOSES <= status && status < CLIENT_ERROR_400_BAD_REQUEST );
+    }
+
+    public static function isClientError( status : Int ) : Bool {
+
+        return ( CLIENT_ERROR_400_BAD_REQUEST <= status && status < SERVER_ERROR_500_INTERNAL_SERVER_ERROR );
+    }
+
+    public static function isServerError( status : Int ) : Bool {
+
+        return ( SERVER_ERROR_500_INTERNAL_SERVER_ERROR <= status && status < 600 );
+    }
 }
