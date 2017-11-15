@@ -194,6 +194,18 @@ class UrlUtil {
 		return null;
 	}
 
+	/** Returns the url protocol if available. **/
+	public static function getProtocol( url : String ) : String {
+
+		var suffix : String = "://";
+		var index : Int = url.indexOf( suffix );
+		if ( index != -1 ) {
+
+			return url.substr( 0, index );
+		}
+		return null;
+	}
+
 	/** Returns true if the url ends with / **/
 	public static function isDirectory( url : String ) : Bool {
 
