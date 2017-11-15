@@ -417,4 +417,14 @@ class XmlUtil {
 
 		return prettify( xml, "", "", "" );
 	}
+
+	public static inline function removeAttribute( xml : Xml, att : String, value : String ) : Bool {
+
+		if ( xml.get( att ) == value ) {
+
+			xml.remove( att );
+			return true;
+		}
+		return return false;
+	}
 }
