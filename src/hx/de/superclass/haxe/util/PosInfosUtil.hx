@@ -29,15 +29,30 @@ import haxe.PosInfos;
 **/
 class PosInfosUtil {
 
-    public static function toString( posInfos : PosInfos ) {
+    public static function toString( posInfos : PosInfos ) : String {
 
-        var string : String = posInfos.className + "." + posInfos.methodName + "() at " + posInfos.fileName + ":" + posInfos.lineNumber;
-        return string;
+        if ( posInfos != null ) {
+
+            return posInfos.className + "." + posInfos.methodName + "() at " + posInfos.fileName + ":" + posInfos.lineNumber;
+        }
+        return "";
     }
 
-    public static function toStringClassLine( posInfos : PosInfos ) {
+    public static function toStringClassLine( posInfos : PosInfos ) : String {
 
-        var string : String = posInfos.className + ":" + posInfos.lineNumber;
-        return string;
+        if ( posInfos != null ) {
+
+            return posInfos.className + ":" + posInfos.lineNumber;
+        }
+        return "";
+    }
+
+    public static function toStringClassMethodLine( posInfos : PosInfos ) : String {
+
+        if ( posInfos != null ) {
+
+            return posInfos.className + "." + posInfos.methodName + "():" + posInfos.lineNumber;
+        }
+        return "";
     }
 }
