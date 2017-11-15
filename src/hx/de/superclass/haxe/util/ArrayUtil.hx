@@ -36,6 +36,37 @@ class ArrayUtil {
 	}
 
 	/**
+		Returns `true` if an array contains the exact same values. Otherwise `false`.
+	**/
+	public static inline function equals<T>( array : Array<T>, arrayB : Array<T> ) : Bool {
+
+		if ( array != null && arrayB != null ) {
+
+			// Same instance
+			if ( array == arrayB ) return true;
+
+			if ( array.length == arrayB.length ) {
+
+				var c : Int = array.length;
+				if ( 0 < c ) {
+
+					for ( i in 0...c ) {
+
+						if ( array[ i ] != arrayB[ i ] ) {
+
+							return false;
+						}
+					}
+				}
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 		Checks if a value from `detectValuesOrder` is used in and array and returns it. Otherwise `null`.
 	**/
 	public static function detectFirstUsedValue<T>( array : Array<T>, detectValuesOrder : Array<T>, ?fallback : Null<T> = null ) : T {
