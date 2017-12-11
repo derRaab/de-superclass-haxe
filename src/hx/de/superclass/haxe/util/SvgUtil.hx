@@ -68,6 +68,11 @@ class SvgUtil {
 				_setPrefixToAttribute( element , prefix , "fill" );
 			}
 
+			if( element.exists( "clip-path" ) ) {
+
+				_setPrefixToAttribute( element , prefix , "clip-path" );
+			}
+
 			var childElements = element.elements();
 			if( childElements != null ) {
 
