@@ -15,7 +15,7 @@ dist: trusty
 
 # Test with Haxe 3.4.2 and Haxe development.
 haxe:
-  - "3.4.2"
+  - "3.4.4"
   - development
 
 matrix:
@@ -70,6 +70,7 @@ install:
     fi
   - haxelib install hxjava
   - haxelib install hxcs
+  - haxelib install utest
   - haxelib list
 
 script:
