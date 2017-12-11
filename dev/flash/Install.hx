@@ -1,3 +1,4 @@
+import sys.FileSystem;
 import Sys.*;
 import sys.io.File.*;
 import haxe.*;
@@ -7,11 +8,11 @@ class Install {
 	// https://www.adobe.com/support/flashplayer/downloads.html
 	static var fpDownload(default, never) = switch (systemName()) {
 		case "Linux":
-			"http://fpdownload.macromedia.com/pub/flashplayer/updaters/25/flash_player_sa_linux_debug.x86_64.tar.gz";
+			"http://fpdownload.macromedia.com/pub/flashplayer/updaters/26/flash_player_sa_linux_debug.x86_64.tar.gz";
 		case "Mac":
-			"http://fpdownload.macromedia.com/pub/flashplayer/updaters/25/flashplayer_25_sa_debug.dmg";
+			"http://fpdownload.macromedia.com/pub/flashplayer/updaters/26/flashplayer_26_sa_debug.dmg";
 		case "Windows":
-			"http://fpdownload.macromedia.com/pub/flashplayer/updaters/25/flashplayer_25_sa_debug.exe";
+			"http://fpdownload.macromedia.com/pub/flashplayer/updaters/26/flashplayer_26_sa_debug.exe";
 		case _:
 			throw "unsupported system";
 	}
@@ -33,7 +34,7 @@ class Install {
 		case "Mac":
 			"/Library/Application Support/Macromedia/FlashPlayerTrust";
 		case "Windows":
-			Path.join([getEnv("SYSTEMROOT"), "system32", "Macromed", "Flash", "FlashPlayerTrust"]);
+			Path.join([getEnv("APPDATA"), "Macromedia", "Flash Player", "#Security", "FlashPlayerTrust"]);
 		case _:
 			throw "unsupported system";
 	}
@@ -49,6 +50,7 @@ class Install {
 
 				if (command("tar", ["-xf", Path.withoutDirectory(fpDownload), "-C",  getCwd() + "dev/flash"]) != 0)
 					throw "failed to extract flash player";
+				FileSystem.deleteFile(Path.withoutDirectory(fpDownload));
 
 			case "Mac":
 
