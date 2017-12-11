@@ -1,8 +1,8 @@
 package de.superclass.test.haxe.util;
 
+import de.superclass.haxe.utest.TestCase;
 import de.superclass.haxe.util.BytesUtil;
 import haxe.io.Bytes;
-import haxe.unit.TestCase;
 
 class BytesUtilTestCase extends TestCase {
 

@@ -6,18 +6,18 @@ import de.superclass.test.haxe.util.BoolUtilTestCase;
 import de.superclass.test.haxe.util.BytesUtilTestCase;
 import de.superclass.test.haxe.util.ColorUtilTestCase;
 import de.superclass.test.haxe.util.DateUtilTestCase;
-import haxe.unit.TestRunner;
+import utest.Runner;
 
 class TestCases {
     
-    public static function addAll( r : TestRunner ) : TestRunner {
+    public static function addAll( r : Runner ) : Runner {
         
-        r.add( new ArrayUtilTestCase() );
-        r.add( new AsciiUtilTestCase() );
-        r.add( new BoolUtilTestCase() );
-        r.add( new BytesUtilTestCase() );
-        r.add( new ColorUtilTestCase() );
-        r.add( new DateUtilTestCase() );
+        r.addCase( new ArrayUtilTestCase() );
+        r.addCase( new AsciiUtilTestCase() );
+        r.addCase( new BoolUtilTestCase() );
+        r.addCase( new BytesUtilTestCase() );
+        r.addCase( new ColorUtilTestCase() );
+        r.addCase( new DateUtilTestCase() );
 
         return r;
     }

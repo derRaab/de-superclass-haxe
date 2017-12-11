@@ -1,6 +1,8 @@
 package;
 
 import de.superclass.haxe.util.HaxeTargetUtil;
+import utest.Runner;
+import utest.ui.Report;
 
 class TestMainHx {
 
@@ -8,9 +10,10 @@ class TestMainHx {
 
         trace( "\n\n|\n|\n|\n| TestMainHx.main() on target '" + HaxeTargetUtil.getTarget() + "'\n|\n|\n|\n" );
 
-        var r = new haxe.unit.TestRunner();
+        var r = new Runner();
 
         r = de.superclass.test.haxe.TestCases.addAll( r );
+        Report.create( r );
 
         r.run();
 

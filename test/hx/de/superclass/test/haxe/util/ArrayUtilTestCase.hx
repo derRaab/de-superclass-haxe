@@ -1,7 +1,7 @@
 package de.superclass.test.haxe.util;
 
+import de.superclass.haxe.utest.TestCase;
 import de.superclass.haxe.util.ArrayUtil;
-import haxe.unit.TestCase;
 
 class ArrayUtilTestCase extends TestCase {
 

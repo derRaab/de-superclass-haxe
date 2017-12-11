@@ -1,8 +1,9 @@
 package de.superclass.test.haxe.util;
 
+import de.superclass.haxe.utest.TestCase;
 import de.superclass.haxe.util.DateUtil;
-import haxe.unit.TestCase;
 
+// TODO DateUtilTestCase ausbauen!
 class DateUtilTestCase extends TestCase {
 
 //    public function testGetLocalTimeStampSecondsFromW3cDtf() {

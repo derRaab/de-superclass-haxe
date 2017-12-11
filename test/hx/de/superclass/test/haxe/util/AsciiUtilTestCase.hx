@@ -1,7 +1,7 @@
 package de.superclass.test.haxe.util;
 
+import de.superclass.haxe.utest.TestCase;
 import de.superclass.haxe.util.AsciiUtil;
-import haxe.unit.TestCase;
 
 class AsciiUtilTestCase extends TestCase {
 

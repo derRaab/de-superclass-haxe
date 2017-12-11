@@ -1,8 +1,8 @@
 package de.superclass.test.haxe.util;
 
-import de.superclass.haxe.util.FloatUtil;
+import de.superclass.haxe.utest.TestCase;
 import de.superclass.haxe.util.ColorUtil;
-import haxe.unit.TestCase;
+import de.superclass.haxe.util.FloatUtil;
 
 class ColorUtilTestCase extends TestCase {
 
