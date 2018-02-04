@@ -39,4 +39,28 @@ class IntUtil {
         if ( int == 0 ) return 0;
         return Std.int( Math.round( Math.random() * int ) );
     }
+
+    /** Return the list of prime factors for a given integer **/
+    public static function primeFactors( n : Int ) : Array<Int> {
+
+        var factors : Array<Int> = [];
+
+        var i : Int = 2;
+        while ( i <=n ) {
+
+            while ( n % i == 0 ) {
+
+                factors.push( i );
+                n = Std.int( n / i );
+            }
+            i++;
+        }
+
+        if ( n > 1 ) {
+
+            factors.push( n );
+        }
+
+        return factors;
+    }
 }
