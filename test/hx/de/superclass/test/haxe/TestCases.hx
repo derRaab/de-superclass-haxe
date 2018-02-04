@@ -6,6 +6,7 @@ import de.superclass.test.haxe.util.BoolUtilTestCase;
 import de.superclass.test.haxe.util.BytesUtilTestCase;
 import de.superclass.test.haxe.util.ColorUtilTestCase;
 import de.superclass.test.haxe.util.DateUtilTestCase;
+import de.superclass.test.haxe.util.IntUtilTestCase;
 import utest.Runner;
 
 class TestCases {
@@ -18,6 +19,7 @@ class TestCases {
         r.addCase( new BytesUtilTestCase() );
         r.addCase( new ColorUtilTestCase() );
         r.addCase( new DateUtilTestCase() );
+        r.addCase( new IntUtilTestCase() );
 
         return r;
     }
