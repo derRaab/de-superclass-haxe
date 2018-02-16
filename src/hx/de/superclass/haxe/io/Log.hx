@@ -42,7 +42,7 @@ class Log {
         }
     }
 
-    #if (js && !debug)
+    #if (!debug)
     public static function log( msg : Dynamic ) : Void {
 
         var loggers : Array<ILogger> = _loggers;
@@ -50,7 +50,7 @@ class Log {
 
             for ( i in 0...loggers.length ) {
 
-                loggers[ i ].log( msg );
+                loggers[ i ].log( msg, null );
             }
         }
     }
@@ -62,7 +62,7 @@ class Log {
 
             for ( i in 0...loggers.length ) {
 
-                loggers[ i ].warn( msg );
+                loggers[ i ].warn( msg, null );
             }
         }
     }
@@ -74,7 +74,7 @@ class Log {
 
             for ( i in 0...loggers.length ) {
 
-                loggers[ i ].error( msg );
+                loggers[ i ].error( msg, null );
             }
         }
     }

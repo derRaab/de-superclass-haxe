@@ -26,6 +26,8 @@ package de.superclass.haxe.util;
 	`UrlUtil` provides simple helper methods for url manipulations.
 	IMPORTANT: directory urls need to end with /
 **/
+import haxe.Timer;
+
 class UrlUtil {
 
 	public static var EREG_VALID : EReg = ~/^[a-zA-Z0-9-:_\.~\/@]+$/m;
@@ -519,5 +521,26 @@ class UrlUtil {
 		}
 
 		return url;
+	}
+
+	private static var _cacheFlag : Float = 0;
+	private static function _nextCacheFloat() : Float {
+
+		var cacheFlag : Float = _cacheFlag;
+		if ( cacheFlag <= 0 ) {
+
+			cacheFlag = Timer.stamp() * 1000 ;
+		}
+
+		cacheFlag++;
+		_cacheFlag = cacheFlag;
+		return cacheFlag;
+	}
+
+
+	/** Creates an unique flag usable like `url += "?cache=" + UrlUtil.nextCacheFlag()`. Each call creates another one **/
+	public static function nextCacheFlag() : String {
+
+		return "" + _nextCacheFloat();
 	}
 }
