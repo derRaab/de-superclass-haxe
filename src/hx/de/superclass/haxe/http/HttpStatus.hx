@@ -95,4 +95,9 @@ class HttpStatus {
 
         return ( SERVER_ERROR_500_INTERNAL_SERVER_ERROR <= status && status < 600 );
     }
+
+    public static function isValid( status : Int ) : Bool {
+
+        return ( isInfo( status ) || isSuccess( status ) || isRedirection( status )  || isClientError( status )  || isServerError( status ) );
+    }
 }
