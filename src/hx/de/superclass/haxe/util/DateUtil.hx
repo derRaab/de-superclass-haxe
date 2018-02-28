@@ -349,16 +349,16 @@ class DateUtil {
 
         if ( StringUtil.hasLength( w3cDtf ) ) {
 
-            trace( "fromW3cDtf", w3cDtf );
+//            trace( "fromW3cDtf", w3cDtf );
 
             // Timestamp without timezone offset created using local date object
             var localTimeStampSecondsFromW3cDtf : Float = getLocalTimeStampSecondsFromW3cDtf( w3cDtf );
 
             var defaultOffsetSeconds : Float = getDefaultTimezoneOffsetSeconds();
             var w3cDtfTimezoneOffset : Float = getTimezoneOffsetSecondsFromW3cDtf( w3cDtf );
-            trace( "localTimeStampSecondsFromW3cDtf: " + localTimeStampSecondsFromW3cDtf );
-            trace( "defaultOffsetSeconds           : " + defaultOffsetSeconds );
-            trace( "w3cDtfTimezoneOffset           : " + w3cDtfTimezoneOffset );
+//            trace( "localTimeStampSecondsFromW3cDtf: " + localTimeStampSecondsFromW3cDtf );
+//            trace( "defaultOffsetSeconds           : " + defaultOffsetSeconds );
+//            trace( "w3cDtfTimezoneOffset           : " + w3cDtfTimezoneOffset );
 
 
             var timestampSeconds : Float = localTimeStampSecondsFromW3cDtf;
