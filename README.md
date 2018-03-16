@@ -13,3 +13,5 @@ This is what I'm working on: https://mokick.com and https://www.spockstar.com.
 
 
 [![TravisCI Build Status](https://travis-ci.org/derRaab/de-superclass-haxe.svg?branch=master)](https://travis-ci.org/derRaab/de-superclass-haxe) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/derRaab/de-superclass-haxe?branch=master&svg=true)](https://ci.appveyor.com/project/derRaab/de-superclass-haxe)
+
+CI integration adapted from [https://github.com/andyli/HaxeCI](https://github.com/andyli/HaxeCI). 
