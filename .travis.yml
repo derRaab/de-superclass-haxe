@@ -13,10 +13,12 @@ osx_image: xcode9.1
 # Let's use Ubuntu Trusty instead of Precise.
 dist: trusty
 
-# Test with Haxe 3.4.2 and Haxe development.
+# Test with Haxe 3.4.7 and Haxe development.
 haxe:
-  - "3.4.4"
+  - "3.4.7"
   - development
+
+neko: "2.2.0"
 
 matrix:
   # Allow Haxe development to fail.
