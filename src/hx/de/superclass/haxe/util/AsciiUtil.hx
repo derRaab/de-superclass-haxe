@@ -35,17 +35,23 @@ class AsciiUtil {
 
 	public static function hasAccents( string : String ) : Bool {
 
-		if ( StringUtil.hasLength( string ) ) {
+		if ( string != null ) {
 
-			var map : Map<String,String> = _getAccentsMap();
-			for ( i in 0...string.length ) {
+			var stringLength : Int = Utf8.length( string );
+			if ( 0 < stringLength ) {
 
-				if ( map.exists( Utf8.sub( string, 0, 1 ) ) ) {
+				var map : Map<String,String> = _getAccentsMap();
+				for ( i in 0...stringLength ) {
 
-					return true;
+					var char : String = Utf8.sub( string, i, 1 );
+					if ( map.exists( char ) ) {
+
+						return true;
+					}
 				}
 			}
 		}
+
 		return false;
 	}
 
