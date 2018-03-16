@@ -26,7 +26,6 @@ package de.superclass.haxe.util;
 	`ReflectUtil` provides simple helper methods for the reflect api.
 **/
 
-import haxe.ds.ObjectMap;
 class ReflectUtil {
 
 	public static function getField( o : Dynamic, fieldName : String ) : Dynamic {
@@ -104,39 +103,5 @@ class ReflectUtil {
 		}
 
 		return null;
-	}
-
-	public static function callRecursive( o : Dynamic, callback : Dynamic -> Void, map : ObjectMap<Dynamic,Dynamic> ) : Void {
-
-		if ( Std.is( o, String ) ) {
-		}
-		else if ( Std.is( o, Float ) || Std.is( o, Int ) ) {
-		}
-		else if ( Std.is( o, Bool ) ) {
-		}
-		else if ( Reflect.isObject( o ) ) {
-
-			if ( map.exists( o ) ) {
-
-				// Already done
-				return;
-			}
-			else {
-
-				map.set( o , o );
-
-				var fields : Array<String> = Reflect.fields( o );
-				if ( ArrayUtil.hasLength( fields ) ) {
-
-					for ( i in 0...fields.length ) {
-
-						var field : String = fields[ i ];
-						callRecursive( Reflect.getProperty( o, field ), callback, map );
-					}
-				}
-			}
-		}
-
-		callback( o );
 	}
 }

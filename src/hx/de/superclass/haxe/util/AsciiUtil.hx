@@ -27,6 +27,7 @@ package de.superclass.haxe.util;
 	Especially helpfull for handling accents, so this is strongly influenced by the wordpress approach:
 	@see https://developer.wordpress.org/reference/functions/remove_accents/ for little more information
 **/
+import haxe.Utf8;
 
 class AsciiUtil {
 
@@ -39,8 +40,7 @@ class AsciiUtil {
 			var map : Map<String,String> = _getAccentsMap();
 			for ( i in 0...string.length ) {
 
-				var substring : String = string.charAt( i );
-				if ( map.exists( substring ) ) {
+				if ( map.exists( Utf8.sub( string, 0, 1 ) ) ) {
 
 					return true;
 				}
@@ -69,9 +69,6 @@ class AsciiUtil {
 	private static function _createAccentsMap() : Map<String,String> {
 
 		var map : Map<String,String> = new Map<String,String>();
-
-		// On some platforms (e.g. nodejs) this is found alone
-		map.set( "̈", "" );
 
 		// Decompositions for Latin-1 Supplement
 		map.set( "ª", "a" );
