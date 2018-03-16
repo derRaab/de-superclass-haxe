@@ -70,6 +70,9 @@ class AsciiUtil {
 
 		var map : Map<String,String> = new Map<String,String>();
 
+		// On some platforms (e.g. nodejs) this is found alone
+		map.set( "̈", "" );
+
 		// Decompositions for Latin-1 Supplement
 		map.set( "ª", "a" );
 		map.set( "º", "o" );
