@@ -24,6 +24,17 @@ class DateUtilTestCase extends TestCase {
         assertEquals( "2000-07-15T12:12:12", DateUtil.toW3cDtf( new Date( 2000, 6, 15, 12, 12, 12 ), 0, false ) );
     }
 
+    public function testFromW3cDtf() {
+
+        assertEquals( new Date( 1970, 0, 1, 0, 0, 0 ).getTime(), DateUtil.fromW3cDtf( "1970-01-01T00:00:00" ).getTime() );
+        assertEquals( 0.0, DateUtil.fromW3cDtf( "1970-01-01T00:00:00Z" ).getTime() );
+        assertEquals( 0.0, DateUtil.fromW3cDtf( "1970-01-01T00:00:00.00Z" ).getTime() );
+        assertEquals( 3600000.0, DateUtil.fromW3cDtf( "1970-01-01T00:00:00+01:00" ).getTime() );
+        assertEquals( 3600000.0, DateUtil.fromW3cDtf( "1970-01-01T00:00:00.00+01:00" ).getTime() );
+        assertEquals( -3600000.0, DateUtil.fromW3cDtf( "1970-01-01T00:00:00-01:00" ).getTime() );
+        assertEquals( -3600000.0, DateUtil.fromW3cDtf( "1970-01-01T00:00:00.00-01:00" ).getTime() );
+    }
+
     public function testGetTimezoneOffsetFromW3cDtf() {
 
         assertEquals( null, DateUtil.getTimezoneOffsetFromW3cDtf( "1970-01-01T00:00:00" ) );

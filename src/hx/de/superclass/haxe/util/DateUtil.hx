@@ -349,24 +349,22 @@ class DateUtil {
 
         if ( StringUtil.hasLength( w3cDtf ) ) {
 
-//            trace( "fromW3cDtf", w3cDtf );
-
             // Timestamp without timezone offset created using local date object
             var localTimeStampSecondsFromW3cDtf : Float = getLocalTimeStampSecondsFromW3cDtf( w3cDtf );
 
-            var defaultOffsetSeconds : Float = getDefaultTimezoneOffsetSeconds();
-            var w3cDtfTimezoneOffset : Float = getTimezoneOffsetSecondsFromW3cDtf( w3cDtf );
-//            trace( "localTimeStampSecondsFromW3cDtf: " + localTimeStampSecondsFromW3cDtf );
-//            trace( "defaultOffsetSeconds           : " + defaultOffsetSeconds );
-//            trace( "w3cDtfTimezoneOffset           : " + w3cDtfTimezoneOffset );
+            var w3cDtfHasTimezone : Bool = ( getTimezoneOffsetStartIndexFromW3cDtf( w3cDtf ) != -1 );
+            if ( w3cDtfHasTimezone ) {
 
+                // Remove current default timezone offset for local date objects (so now we have GMT time)
+                var defaultOffsetSeconds : Float = getDefaultTimezoneOffsetSeconds();
+                localTimeStampSecondsFromW3cDtf += defaultOffsetSeconds;
 
-            var timestampSeconds : Float = localTimeStampSecondsFromW3cDtf;
+                // Add w3c timezone offset to
+                var w3cDtfTimezoneOffset : Float = getTimezoneOffsetSecondsFromW3cDtf( w3cDtf );
+                localTimeStampSecondsFromW3cDtf += w3cDtfTimezoneOffset;
+            }
 
-            return Date.fromTime( timestampSeconds * 1000 );
-
-
-
+            return Date.fromTime( localTimeStampSecondsFromW3cDtf * 1000 );
         }
 
         return null;
