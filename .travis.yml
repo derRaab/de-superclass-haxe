@@ -6,10 +6,6 @@ os:
   - linux
   - osx
 
-# Let's use a more recent XCode, which generally compiles C/C++ faster
-# https://docs.travis-ci.com/user/osx-ci-environment/
-osx_image: xcode9.1
-
 # Let's use Ubuntu Trusty instead of Precise.
 dist: trusty
 
@@ -43,6 +39,14 @@ addons:
       # Flash
       - libglib2.0
       - libfreetype6
+      # Lua
+      - cmake
+      - luajit
+      - luarocks
+      - lua-sec
+      - lua-bitop
+      - lua-socket
+      - libpcre3-dev
 
 install:
   # os-specific config
@@ -51,14 +55,25 @@ install:
       export AUDIODEV=null;
       phpenv global 7.0;
     elif [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-      brew uninstall --force brew-cask;
       brew update;
       brew install mono;
       brew install phantomjs;
+      brew install python3;
       brew tap homebrew/homebrew-php && brew install php71;
     fi
+  # Haxe Lua dependencies
+  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
+      sudo luarocks install lrexlib-pcre PCRE_LIBDIR=/lib/x86_64-linux-gnu;
+    elif [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+      brew install lua pcre python;
+      sudo luarocks install luabitop;
+      sudo luarocks install luasocket;
+      sudo luarocks install lrexlib-pcre;
+    fi
+  - sudo luarocks install luv
+  - sudo luarocks install environ
   # Download and setup a standalone flash player debugger
-  - haxe dev/flash/install.hxml
+  - haxe flash/install.hxml
   # Install haxelibs
   - if [ "${TRAVIS_HAXE_VERSION}" = "development" ]; then
       haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git;
@@ -71,7 +86,6 @@ install:
     fi
   - haxelib install hxjava
   - haxelib install hxcs
-  - haxelib install utest
   - haxelib list
 
 script:
