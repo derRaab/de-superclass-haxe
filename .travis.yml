@@ -37,8 +37,6 @@ addons:
       - g++-multilib
       # Python
       - python3
-      # PHP
-      - php5-cli
       # C#
       - mono-devel
       - mono-mcs
@@ -51,11 +49,13 @@ install:
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
       export DISPLAY=:99.0;
       export AUDIODEV=null;
+      phpenv global 7.0;
     elif [ "${TRAVIS_OS_NAME}" = "osx" ]; then
       brew uninstall --force brew-cask;
       brew update;
       brew install mono;
       brew install phantomjs;
+      brew tap homebrew/homebrew-php && brew install php71;
     fi
   # Download and setup a standalone flash player debugger
   - haxe dev/flash/install.hxml
@@ -81,7 +81,7 @@ script:
                                         && haxe dev/phantomjs/run.hxml bin/js/TestMainHx.js
   - haxe dev/ci/build-java.hxml         && java -jar bin/java/TestMainHx.jar
 # Avoid php  - haxe dev/ci/build-php.hxml          && php bin/php/index.php
-# Avoid php7  - haxe dev/ci/build-php7.hxml         && php bin/php7/index.php
+  - haxe dev/ci/build-php7.hxml         && php bin/php7/index.php
   - haxe dev/ci/build-cs.hxml           && mono bin/cs/bin/TestMainHx.exe
   - haxe dev/ci/build-flash.hxml -D fdb && haxe dev/flash/run.hxml bin/flash/TestMainHx.swf
   - haxe dev/ci/build-cpp.hxml          && ./bin/cpp/TestMainHx
