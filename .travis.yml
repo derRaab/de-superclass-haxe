@@ -56,7 +56,6 @@ install:
       brew update;
       brew install mono;
       brew install phantomjs;
-      brew install python3;
     fi
   # Download and setup a standalone flash player debugger
   - haxe dev/flash/install.hxml
