@@ -73,7 +73,7 @@ install:
   - sudo luarocks install luv
   - sudo luarocks install environ
   # Download and setup a standalone flash player debugger
-  - haxe flash/install.hxml
+  - haxe dev/flash/install.hxml
   # Install haxelibs
   - if [ "${TRAVIS_HAXE_VERSION}" = "development" ]; then
       haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git;
@@ -86,6 +86,7 @@ install:
     fi
   - haxelib install hxjava
   - haxelib install hxcs
+  - haxelib install utest
   - haxelib list
 
 script:

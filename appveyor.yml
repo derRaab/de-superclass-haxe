@@ -20,6 +20,10 @@ install:
   # Install php
   - cinst php -y
   - RefreshEnv
+  # Install lua using hererocks
+  - pip install hererocks
+  - hererocks luaenv --lua 5.3 -rlatest
+  - call luaenv\bin\activate
   # Download and setup a standalone flash player debugger
   - haxe dev/flash/install.hxml
   # Install project dependencies
