@@ -43,34 +43,46 @@ class SvgUtil {
 
 			var element : Xml = elements.next();
 
-			if( element.exists( "id" ) ) {
+			if ( element.nodeName.toLowerCase() == "style" ) {
 
-				_setPrefixToId( element , prefix ) ;
+				_setPrefixToStyle( element, prefix );
 			}
+			else {
 
-			if( element.exists( "xlink:href" ) ) {
+				if( element.exists( "class" ) ) {
 
-				_setPrefixToUse( element , prefix ) ;
-			}
+					_prefixAttribute( element , prefix , "class" );
+				}
 
-			if( element.exists( "mask" ) ) {
+				if( element.exists( "id" ) ) {
 
-				_setPrefixToAttribute( element , prefix , "mask" ) ;
-			}
+					_setPrefixToId( element , prefix ) ;
+				}
 
-			if( element.exists( "filter" ) ) {
+				if( element.exists( "xlink:href" ) ) {
 
-				_setPrefixToAttribute( element , prefix , "filter" );
-			}
+					_setPrefixToUse( element , prefix ) ;
+				}
 
-			if( element.exists( "fill" ) ) {
+				if( element.exists( "mask" ) ) {
 
-				_setPrefixToAttribute( element , prefix , "fill" );
-			}
+					_setPrefixToAttribute( element , prefix , "mask" ) ;
+				}
 
-			if( element.exists( "clip-path" ) ) {
+				if( element.exists( "filter" ) ) {
 
-				_setPrefixToAttribute( element , prefix , "clip-path" );
+					_setPrefixToAttribute( element , prefix , "filter" );
+				}
+
+				if( element.exists( "fill" ) ) {
+
+					_setPrefixToAttribute( element , prefix , "fill" );
+				}
+
+				if( element.exists( "clip-path" ) ) {
+
+					_setPrefixToAttribute( element , prefix , "clip-path" );
+				}
 			}
 
 			var childElements = element.elements();
@@ -79,6 +91,31 @@ class SvgUtil {
 				_iterateAllElements( childElements, prefix );
 			}
 		}
+	}
+
+	private static function _setPrefixToStyle( styleElement : Xml , prefix: String ) : Void {
+
+		var cssStringXml : Xml = styleElement.firstChild();
+		if ( cssStringXml == null ) {
+
+			return;
+		}
+
+		styleElement.removeChild( cssStringXml );
+
+		var cssString = "" + cssStringXml;
+
+		// Extract all strings between . and {
+		var eregClass : EReg = ~/(\.)(.*)(\{)/ig;
+
+		var cssClasses : Array<String> = ERegUtil.getMatchedArray( eregClass, 2, cssString );
+		for ( i in 0...cssClasses.length ) {
+
+			var cssClass : String = cssClasses[ i ];
+			cssString = StringUtil.replace( cssString, "." + cssClass + "{", "." + prefix + cssClass + "{" );
+		}
+
+		styleElement.addChild( Xml.createPCData( cssString ) );
 	}
 
 	private static function _setPrefixToId( element : Xml , prefix: String ) : Void {
@@ -126,5 +163,10 @@ class SvgUtil {
 			var value : String = "url(#" + prefix + splitString[ 1 ];
 			element.set( attribute ,value );
 		}
+	}
+
+	private static function _prefixAttribute( element : Xml , prefix: String , attribute : String ) : Void {
+
+		element.set( attribute, prefix + element.get( attribute ) );
 	}
 }
