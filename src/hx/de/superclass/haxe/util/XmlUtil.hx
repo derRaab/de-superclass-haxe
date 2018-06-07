@@ -408,6 +408,11 @@ class XmlUtil {
 		return "";
 	}
 
+	public static inline function prettifyMaxString( xmlString : String ) : String {
+
+		return prettify( Xml.parse( xmlString ), "\t", "\n", "" );
+	}
+
 	public static inline function prettifyMax( xml : Xml ) : String {
 
 		return prettify( xml, "\t", "\n", "" );
