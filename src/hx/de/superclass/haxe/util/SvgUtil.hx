@@ -25,6 +25,8 @@ package de.superclass.haxe.util;
 /**
 	`SvgUtil` provides simple helper methods for svg manipulation.
 **/
+import haxe.ds.StringMap;
+
 class SvgUtil {
 	
 	private static var _ids: Array<String> = [];
@@ -34,10 +36,90 @@ class SvgUtil {
 	**/
     public static function prefixIds( svgXmlRootNode : Xml, prefix : String ) : Void {
 
-	    _iterateAllElements( svgXmlRootNode.elements(), prefix );
+		// Collect elements for special css treatment
+		var elementsWithClass : Array<Xml> = [];
+		var styleElements : Array<Xml> = [];
+
+	    _iterateAllElements( svgXmlRootNode.elements(), prefix, elementsWithClass, styleElements );
+
+		// Prefix only in svg defined styles
+		_setPrefixToStyles( prefix, elementsWithClass, styleElements );
     }
 
-	private static function _iterateAllElements( elements : Iterator<Xml> , prefix : String ) : Void {
+	private static function _setPrefixToStyles( prefix : String, elementsWithClass : Array<Xml>, styleElements : Array<Xml> ) : Void {
+
+		// Collect all defined svg specific css classes
+		var cssClassMap : StringMap<String> = new StringMap<String>();
+		var cssClassMapUsed : Bool = false;
+
+		for ( i in 0...styleElements.length ) {
+
+			var styleElement : Xml = styleElements[ i ];
+			var cssClasses : Array<String> = _setPrefixToStyle( styleElement, prefix );
+			if ( ArrayUtil.hasLength( cssClasses ) ) {
+
+				for ( ii in 0...cssClasses.length ) {
+
+					var cssClass : String = cssClasses[ ii ];
+					cssClassMap.set( cssClass, cssClass );
+
+					cssClassMapUsed = true;
+				}
+			}
+		}
+
+		if ( ! cssClassMapUsed ) {
+
+			return;
+		}
+
+		// Prefix just the defined svg specific classes - others might be put in for an external reason!
+		for ( i in 0...elementsWithClass.length ) {
+
+			var element : Xml = elementsWithClass[ i ];
+			var className : String = element.get( "class" );
+			if ( StringUtil.hasLength( className ) ) {
+
+				var classNameNew : String = null;
+
+				if ( StringUtil.contains( className, " " ) ) {
+
+					// Multiple classes
+					var classNameArray : Array<String> = className.split( " " );
+					for ( ii in 0...classNameArray.length ) {
+
+						var className2 : String = classNameArray[ ii ];
+						if ( cssClassMap.exists( className2 ) ) {
+
+							classNameArray[ ii ] = prefix + className2;
+						}
+					}
+
+					classNameNew = classNameArray.join( " " );
+				}
+				else {
+
+					// Only one class
+					if ( cssClassMap.exists( className ) ) {
+
+						classNameNew = prefix + className;
+					}
+					else {
+
+						classNameNew = className;
+					}
+				}
+
+				// Refresh only if actually changed
+				if ( className != classNameNew ) {
+
+					element.set( "class", classNameNew );
+				}
+			}
+		}
+	}
+
+	private static function _iterateAllElements( elements : Iterator<Xml> , prefix : String, elementsWithClass : Array<Xml>, styleElements : Array<Xml> ) : Void {
 
 		while( elements.hasNext() ){
 
@@ -45,13 +127,15 @@ class SvgUtil {
 
 			if ( element.nodeName.toLowerCase() == "style" ) {
 
-				_setPrefixToStyle( element, prefix );
+				// Collect
+				styleElements.push( element );
 			}
 			else {
 
 				if( element.exists( "class" ) ) {
 
-					_prefixAttribute( element , prefix , "class" );
+					// Collect
+					elementsWithClass.push( element );
 				}
 
 				if( element.exists( "id" ) ) {
@@ -88,17 +172,17 @@ class SvgUtil {
 			var childElements = element.elements();
 			if( childElements != null ) {
 
-				_iterateAllElements( childElements, prefix );
+				_iterateAllElements( childElements, prefix, elementsWithClass, styleElements );
 			}
 		}
 	}
 
-	private static function _setPrefixToStyle( styleElement : Xml , prefix: String ) : Void {
+	private static function _setPrefixToStyle( styleElement : Xml , prefix: String ) : Array<String> {
 
 		var cssStringXml : Xml = styleElement.firstChild();
 		if ( cssStringXml == null ) {
 
-			return;
+			return null;
 		}
 
 		styleElement.removeChild( cssStringXml );
@@ -116,6 +200,8 @@ class SvgUtil {
 		}
 
 		styleElement.addChild( Xml.createPCData( cssString ) );
+
+		return cssClasses;
 	}
 
 	private static function _setPrefixToId( element : Xml , prefix: String ) : Void {
