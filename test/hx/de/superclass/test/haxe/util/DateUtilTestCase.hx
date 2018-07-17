@@ -2,6 +2,7 @@ package de.superclass.test.haxe.util;
 
 import de.superclass.haxe.utest.TestCase;
 import de.superclass.haxe.util.DateUtil;
+import de.superclass.haxe.util.StringUtil;
 
 // TODO DateUtilTestCase ausbauen!
 class DateUtilTestCase extends TestCase {
@@ -18,6 +19,12 @@ class DateUtilTestCase extends TestCase {
 //
 ////        assertEquals( 0.0, DateUtil.getLocalTimeStampSecondsFromW3cDtf( "1970-01-01T00:00:00") );
 //    }
+
+    public function testToW3cDtfUtc() {
+
+        var nowZulu : String = DateUtil.toW3cDtfUtc( Date.now(), 0, true );
+        assertTrue( StringUtil.endsWith( nowZulu, "Z" ) );
+    }
 
     public function testToW3cDtf() {
 

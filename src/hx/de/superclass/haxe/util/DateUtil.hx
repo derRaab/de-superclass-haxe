@@ -275,6 +275,25 @@ class DateUtil {
 
         return offsetSeconds;
     }
+    /**
+		Returns the `date` as w3c date time format als described here: https://www.w3.org/TR/NOTE-datetime but always as utc
+	**/
+    public static function toW3cDtfUtc( date : Date, ?secondFractionDigits : Int = 3, ?timezoneDesignator : Bool = true ) : String {
+
+        var timezoneOffsetSeconds : Float = getDefaultTimezoneOffsetSeconds();
+        if ( timezoneOffsetSeconds != 0 ) {
+
+            date = Date.fromTime( date.getTime() - timezoneOffsetSeconds * 1000 );
+        }
+
+        var dtf : String = toW3cDtf( date, secondFractionDigits, false );
+        if ( timezoneDesignator ) {
+
+            dtf += _TIME_ZONE_DESIGNATOR_UTC;
+        }
+
+        return dtf;
+    }
 
     /**
 		Returns the `date` as w3c date time format als described here: https://www.w3.org/TR/NOTE-datetime.
