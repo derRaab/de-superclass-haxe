@@ -29,6 +29,7 @@ package de.superclass.haxe.util;
 /**
 	`TimerUtil` provides simple helper methods for workin with the timer.
 **/
+import haxe.Timer;
 class TimerUtil {
 
 	/**
@@ -42,5 +43,17 @@ class TimerUtil {
 			trace( "FALLBACK USED IN TimerUtil.delay() - Timer not supported");
 			f();
 		#end
+	}
+
+	private static var _timeRangeStart : Float = 0;
+	public static function timeRangeStartNow() : Float {
+
+		var startStamp : Float = Timer.stamp();
+		_timeRangeStart = startStamp;
+		return startStamp;
+	}
+	public static function timeRange() : Float {
+
+		return Timer.stamp() - _timeRangeStart;
 	}
 }
