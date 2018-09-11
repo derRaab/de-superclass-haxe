@@ -272,21 +272,56 @@ class XmlUtil {
 		parentElement.removeChild( currentElement );
 	}
 
-	public static function prettify( xml : Xml, tab : String, lineBreak : String, linePrefix : String, ?maxDepth : Int = -1, ?depth : Int = 0 ) : String {
+	public static function prettify( xml : Xml, tab : String, lineBreak : String, linePrefix : String, ?maxDepth : Int = -1, ?depth : Int = 0, ?selfClosingTagSupported : Bool = false ) : String {
 
 		switch ( xml.nodeType ) {
 
 			case XmlType.Element:
 
+				// Create opening element tag
 				var nodeName : String = xml.nodeName;
 
-				// start on new line
+				// Start on new line
 				var xmlString : String = lineBreak + linePrefix;
 
-				// open start node
+				// Open start node
 				xmlString += "<" + nodeName;
 
-				// apply attributes in sorted order
+				// Force every child content on single line if any text content child is detected
+				var inlineChildren : Bool = false;
+				for ( xmlChild in xml ) {
+
+					if ( xmlChild.nodeType == Xml.PCData && 0 < xmlChild.nodeValue.length ) {
+
+						tab = "";
+						lineBreak = "";
+						linePrefix = "";
+
+						inlineChildren = true;
+						// Inline tags always allowed to self close! (HTML)
+						selfClosingTagSupported = true;
+						break;
+					}
+				}
+
+				var endNodeOnNewLine : Bool = false;
+
+				// Prettify children
+				var xmlChildrenString : String = "";
+				for ( xmlChild in xml ) {
+
+					if ( xmlChild.nodeType == Xml.Element ) {
+
+						endNodeOnNewLine = true;
+					}
+
+					if ( maxDepth < 0 || depth < maxDepth ) {
+
+						xmlChildrenString += prettify( xmlChild, tab, lineBreak, linePrefix + tab, maxDepth, depth + 1, selfClosingTagSupported );
+					}
+				}
+
+				// Apply attributes in sorted order
 				var attributes : Array<String> = null;
 				for ( attribute in xml.attributes() ) {
 
@@ -308,32 +343,25 @@ class XmlUtil {
 					}
 				}
 
-				// close start node
-				xmlString += ">";
+				var hasChildren : Bool = StringUtil.hasLength( xmlChildrenString );
 
-				// line end node
-				var endNodeOnNewLine : Bool = false;
-				// iterate on all children
-				for ( xmlChild in xml ) {
+				var isSelfClosingTag : Bool = ( selfClosingTagSupported && ! hasChildren );
+				if ( isSelfClosingTag ) {
 
-					if ( xmlChild.nodeType == Xml.Element ) {
+					xmlString += "/>";
+				}
+				else {
 
-						endNodeOnNewLine = true;
+					var useSingleLine : Bool = ( inlineChildren || ! hasChildren || ! endNodeOnNewLine );
+					if ( inlineChildren || ! hasChildren ) {
+
+						xmlString += ">" + xmlChildrenString + "</" + nodeName + ">";
 					}
+					else {
 
-					if ( maxDepth < 0 || depth < maxDepth ) {
-
-						xmlString += prettify( xmlChild, tab, lineBreak, linePrefix + tab, maxDepth, depth + 1 );
+						xmlString += ">" + xmlChildrenString + lineBreak + linePrefix + "</" + nodeName + ">";
 					}
 				}
-
-				// end node
-				if ( endNodeOnNewLine ) {
-
-					xmlString += lineBreak + linePrefix;
-				}
-
-				xmlString += "</" + nodeName + ">";
 
 				return xmlString;
 
@@ -396,7 +424,7 @@ class XmlUtil {
 			case XmlType.Document:
 
 				// just forward to first element but avoid first linebreak
-				var xmlString : String = prettify( xml.firstElement(), tab, lineBreak, linePrefix, maxDepth, depth );
+				var xmlString : String = prettify( xml.firstElement(), tab, lineBreak, linePrefix, maxDepth, depth, selfClosingTagSupported );
 				if ( lineBreak.length <= xmlString.length ) {
 
 					xmlString = xmlString.substr( lineBreak.length );
@@ -408,19 +436,19 @@ class XmlUtil {
 		return "";
 	}
 
-	public static inline function prettifyMaxString( xmlString : String ) : String {
+	public static inline function prettifyMaxString( xmlString : String, ?selfClosingTagSupported : Bool = false ) : String {
 
-		return prettify( Xml.parse( xmlString ), "\t", "\n", "" );
+		return prettify( Xml.parse( xmlString ), "\t", "\n", "", -1, 0, selfClosingTagSupported );
 	}
 
-	public static inline function prettifyMax( xml : Xml ) : String {
+	public static inline function prettifyMax( xml : Xml, ?selfClosingTagSupported : Bool = false ) : String {
 
-		return prettify( xml, "\t", "\n", "" );
+		return prettify( xml, "\t", "\n", "", -1, 0, selfClosingTagSupported );
 	}
 
-	public static inline function prettifyMin( xml : Xml ) : String {
+	public static inline function prettifyMin( xml : Xml, ?selfClosingTagSupported : Bool = false ) : String {
 
-		return prettify( xml, "", "", "" );
+		return prettify( xml, "", "", "", -1, 0, selfClosingTagSupported );
 	}
 
 	public static inline function removeAttribute( xml : Xml, att : String, value : String ) : Bool {
