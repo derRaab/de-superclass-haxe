@@ -369,12 +369,11 @@ class XmlUtil {
 
 				var xmlString : String = xml.toString();
 
-				// trim whitespace, tabs and linebreaks
+				// Trim tabs and linebreaks
 				while ( 0 < xmlString.length ) {
 
 					switch ( xmlString.charAt( 0 ) ) {
 
-						case " ":
 						case "\t":
 						case "\n":
 						case "\r":
@@ -390,7 +389,6 @@ class XmlUtil {
 
 					switch ( xmlString.charAt( xmlString.length - 1 ) ) {
 
-						case " ":
 						case "\t":
 						case "\n":
 						case "\r":
