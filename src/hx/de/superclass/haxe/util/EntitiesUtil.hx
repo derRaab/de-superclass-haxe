@@ -28,6 +28,8 @@ package de.superclass.haxe.util;
 **/
 class EntitiesUtil {
 
+    public static var EREG_ENTITY_NUMBER : EReg = ~/&#([0-9]+);/gi;
+
     private static var _decimalCodeMap : Map<String,EntityVo>;
     private static var _es : Array<EntityVo>;
     private static var _hexCodeMap : Map<String,EntityVo>;
