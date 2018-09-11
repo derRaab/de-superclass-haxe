@@ -460,4 +460,17 @@ class XmlUtil {
 		}
 		return return false;
 	}
+
+	public static function clone( xml : Xml ) : Xml {
+
+		var xmlString : String = xml.toString();
+		var xml2 : Xml = Xml.parse( xmlString );
+
+		if ( xml.nodeType != xml2.nodeType ) {
+
+			xml2 = xml2.firstElement();
+		}
+
+		return xml2;
+	}
 }
