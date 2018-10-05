@@ -30,8 +30,8 @@ class IntUtil {
     // See https://github.com/aduros/flambe/blob/master/src/flambe/math/FMath.hx
     /** The highest integer value in Flash and JS. */
     public static var MAX_VALUE :Int = 2147483647;
-    /** The lowest integer value in Flash and JS. */
-    public static var MIN_VALUE :Int = -2147483647;
+    /** The lowest integer value in Flash and JS. PHP7 output somehow needs different value */
+    public static var MIN_VALUE :Int = #if (php || php7) -2147483647; #else -2147483648; #end
 
     /** Return a random integer between 0 (inclusive) and the given integer (inclusive) **/
     public static function random( int : Int ) : Int {
