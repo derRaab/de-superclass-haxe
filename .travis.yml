@@ -74,7 +74,7 @@ install:
   - sudo luarocks install environ
   - sudo luarocks install luautf8
   # Download and setup a standalone flash player debugger
-  - haxe flash/install.hxml
+  - haxe dev/flash/install.hxml
   # Install haxelibs
   - if [ "${TRAVIS_HAXE_VERSION}" = "development" ]; then
       haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git;
