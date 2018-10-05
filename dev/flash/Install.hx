@@ -1,20 +1,29 @@
-import sys.FileSystem;
 import Sys.*;
+import sys.FileSystem.*;
 import sys.io.File.*;
 import haxe.*;
 import haxe.io.*;
 
+#if (haxe_ver < 4)
+import haxe.xml.Fast as Access;
+#else
+import haxe.xml.Access;
+#end
+
 class Install {
 	// https://www.adobe.com/support/flashplayer/downloads.html
-	static var fpDownload(default, never) = switch (systemName()) {
-		case "Linux":
-			"http://fpdownload.macromedia.com/pub/flashplayer/updaters/26/flash_player_sa_linux_debug.x86_64.tar.gz";
-		case "Mac":
-			"http://fpdownload.macromedia.com/pub/flashplayer/updaters/26/flashplayer_26_sa_debug.dmg";
-		case "Windows":
-			"http://fpdownload.macromedia.com/pub/flashplayer/updaters/26/flashplayer_26_sa_debug.exe";
-		case _:
-			throw "unsupported system";
+	static function getDownloadUrl() {
+		var majorVersion = getLatestFPVersion()[0];
+		return switch (systemName()) {
+			case "Linux":
+				'http://fpdownload.macromedia.com/pub/flashplayer/updaters/${majorVersion}/flash_player_sa_linux_debug.x86_64.tar.gz';
+			case "Mac":
+				'http://fpdownload.macromedia.com/pub/flashplayer/updaters/${majorVersion}/flashplayer_${majorVersion}_sa_debug.dmg';
+			case "Windows":
+				'http://fpdownload.macromedia.com/pub/flashplayer/updaters/${majorVersion}/flashplayer_${majorVersion}_sa_debug.exe';
+			case _:
+				throw "unsupported system";
+		}
 	}
 	// https://helpx.adobe.com/flash-player/kb/configure-debugger-version-flash-player.html
 	static var mmcfg(default, never) = switch (systemName()) {
@@ -38,36 +47,32 @@ class Install {
 		case _:
 			throw "unsupported system";
 	}
+	static function getLatestFPVersion():Array<Int> {
+		var appcast = Xml.parse(Http.requestUrl("http://fpdownload2.macromedia.com/get/flashplayer/update/current/xml/version_en_mac_pep.xml"));
+		var versionStr = new Access(appcast).node.XML.node.update.att.version;
+		return versionStr.split(",").map(Std.parseInt);
+	}
 	static function main() {
-
 		switch (systemName()) {
-
 			case "Linux":
-
+				var fpDownload = getDownloadUrl();
 				// Download and unzip flash player
 				if (command("wget", [fpDownload]) != 0)
 					throw "failed to download flash player";
-
-				if (command("tar", ["-xf", Path.withoutDirectory(fpDownload), "-C",  getCwd() + "dev/flash"]) != 0)
+				if (command("tar", ["-xf", Path.withoutDirectory(fpDownload), "-C", "dev/flash"]) != 0)
 					throw "failed to extract flash player";
-				FileSystem.deleteFile(Path.withoutDirectory(fpDownload));
-
+				deleteFile(Path.withoutDirectory(fpDownload));
 			case "Mac":
-
-				// https://github.com/caskroom/homebrew-cask/pull/15381
-				if (command("brew", ["uninstall", "--force", "brew-cask"]) != 0)
-					throw "failed to brew uninstall --force brew-cask";
-				if (command("brew", ["tap", "caskroom/versions"]) != 0)
-					throw "failed to brew tap caskroom/versions";
 				if (command("brew", ["cask", "install", "flash-player-debugger"]) != 0)
 					throw "failed to install flash-player-debugger";
 			case "Windows":
-
+				var fpDownload = getDownloadUrl();
 				// Download flash player
 				download(fpDownload, "dev\\flash\\flashplayer.exe");
 			case _:
 				throw "unsupported system";
 		}
+		
 
 		// Create a configuration file so the trace log is enabled
 		createDirectory(Path.directory(mmcfg));
@@ -75,7 +80,6 @@ class Install {
 
 		// Add the current directory as trusted, so exit() can be used
 		createDirectory(fpTrust);
-
 		saveContent(Path.join([fpTrust, "test.cfg"]), getCwd());
 	}
 	static function download(url:String, saveAs:String):Void {
@@ -96,12 +100,7 @@ class Install {
 					if (command("sudo", ["chmod", "a+rw", dir]) != 0)
 						throw 'cannot set permission of $dir';
 				case _:
-					#if neko
-					neko.Lib.rethrow(e);
-					#else
-					// Only neko handles proper rethrowing.
-					throw e;
-					#end
+					throw 'cannot create $dir: $e';
 			}
 		}
 	}
