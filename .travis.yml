@@ -6,7 +6,7 @@ os:
   - linux
   - osx
 
-# Let's use Ubuntu Trusty instead of Precise.
+# Let's use Ubuntu Trusty instead of Precise, which reached its EOL on April 28, 2017.
 dist: trusty
 
 # Test with Haxe 3.4.7 and Haxe development.
@@ -40,13 +40,11 @@ addons:
       - libglib2.0
       - libfreetype6
       # Lua
-      - cmake
-      - luajit
+      - cmake3
+      - lua5.1
       - luarocks
-      - lua-sec
-      - lua-bitop
-      - lua-socket
       - libpcre3-dev
+      - libssl-dev
 
 install:
   # os-specific config
@@ -57,23 +55,25 @@ install:
     elif [ "${TRAVIS_OS_NAME}" = "osx" ]; then
       brew update;
       brew install mono;
-      brew install phantomjs;
+      brew cask install phantomjs;
       brew upgrade python;
-      phpenv global 7.0;
+      brew install php;
     fi
   # Haxe Lua dependencies
   - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
-      sudo luarocks install lrexlib-pcre PCRE_LIBDIR=/lib/x86_64-linux-gnu;
-    elif [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-      brew install lua pcre python;
+      sudo luarocks install luasec OPENSSL_LIBDIR=/usr/lib/x86_64-linux-gnu;
+      sudo luarocks install lrexlib-pcre PCRE_LIBDIR=/usr/lib/x86_64-linux-gnu;
       sudo luarocks install luabitop;
-      sudo luarocks install luasocket;
+    elif [ "${TRAVIS_OS_NAME}" = "osx" ]; then
+      brew install lua luarocks pcre python;
       sudo luarocks install lrexlib-pcre;
+      sudo luarocks install luasocket;
     fi
   - sudo luarocks install luv
   - sudo luarocks install environ
+  - sudo luarocks install luautf8
   # Download and setup a standalone flash player debugger
-  - haxe dev/flash/install.hxml
+  - haxe flash/install.hxml
   # Install haxelibs
   - if [ "${TRAVIS_HAXE_VERSION}" = "development" ]; then
       haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git;
