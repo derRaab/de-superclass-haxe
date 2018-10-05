@@ -1,3 +1,4 @@
+#  SETTINGS FROM https://raw.githubusercontent.com/andyli/HaxeCI/master/.travis.yml
 language: haxe
 
 # TravisCI by default run on linux.
@@ -86,8 +87,10 @@ install:
     fi
   - haxelib install hxjava
   - haxelib install hxcs
-  - haxelib install utest
   - haxelib list
+
+  # CUSTOM LIB
+  - haxelib install utest
 
 script:
   - haxe dev/ci/build-interp.hxml
