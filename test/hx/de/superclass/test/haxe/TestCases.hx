@@ -1,5 +1,6 @@
 package de.superclass.test.haxe;
 
+import de.superclass.test.haxe.format.W3cPeriodTestCase;
 import de.superclass.test.haxe.util.ArrayUtilTestCase;
 import de.superclass.test.haxe.util.AsciiUtilTestCase;
 import de.superclass.test.haxe.util.BoolUtilTestCase;
@@ -13,7 +14,11 @@ import utest.Runner;
 class TestCases {
     
     public static function addAll( r : Runner ) : Runner {
-        
+
+        // format
+        r.addCase( new W3cPeriodTestCase() );
+
+        // util
         r.addCase( new ArrayUtilTestCase() );
         r.addCase( new AsciiUtilTestCase() );
         r.addCase( new BoolUtilTestCase() );
