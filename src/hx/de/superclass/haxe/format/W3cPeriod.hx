@@ -34,6 +34,10 @@ import de.superclass.haxe.util.TimeUtil;
  **/
 class W3cPeriod {
 
+	public static var DAYS_IN_YEAR : Float = 365.0;
+	public static var DAYS_IN_MONTH : Float = 30.0;
+	public static var TO_MILLISECONDS_FAILED_FALLBACK : Float = 0.0;
+
 	public static function fromMilliseconds( milliseconds : Float, secondFractionDigits : Int = 0 ) : String {
 
 		if ( milliseconds == 0 ) {
@@ -47,19 +51,19 @@ class W3cPeriod {
 			milliseconds *= -1;
 		}
 
-		var days : Float = Std.int( TimeUtil.millisecondsToDays( milliseconds ) );
+		var days : Float = Math.floor( TimeUtil.millisecondsToDays( milliseconds ) );
 		if ( 0 < days ) {
 
 			milliseconds -= TimeUtil.daysToMilliseconds( days );
 		}
 
-		var hours : Float = Std.int( TimeUtil.millisecondsToHours( milliseconds ) );
+		var hours : Float = Math.floor( TimeUtil.millisecondsToHours( milliseconds ) );
 		if ( 0 < hours ) {
 
 			milliseconds -= TimeUtil.hoursToMilliseconds( hours );
 		}
 
-		var minutes : Float = Std.int( TimeUtil.millisecondsToMinutes( milliseconds ) );
+		var minutes : Float = Math.floor( TimeUtil.millisecondsToMinutes( milliseconds ) );
 		if ( 0 < minutes ) {
 
 			milliseconds -= TimeUtil.minutesToMilliseconds( minutes );
@@ -113,7 +117,7 @@ class W3cPeriod {
 
 		if ( w3cPeriod == "PT0S" ) {
 
-			return 0;
+			return 0.0;
 		}
 
 		// detect negative -
@@ -123,12 +127,17 @@ class W3cPeriod {
 			w3cPeriod = w3cPeriod.substr( 1 );
 		}
 
-		var milliseconds : Float = 0;
+		var milliseconds : Float = 0.0;
 
 		// remove leading P
 		if( w3cPeriod.charAt( 0 ) == "P" ) {
 
 			w3cPeriod = w3cPeriod.substr( 1 );
+		}
+		else {
+
+			// No leading "P" found
+			return TO_MILLISECONDS_FAILED_FALLBACK;
 		}
 
 		var w3cPeriodDayPart : String = null;
@@ -139,6 +148,12 @@ class W3cPeriod {
 			var w3cPeriodParts : Array<String> = w3cPeriod.split( "T" );
 			w3cPeriodDayPart = w3cPeriodParts[ 0 ];
 			w3cPeriodTimePart = w3cPeriodParts[ 1 ];
+		}
+		else {
+
+			// No separator found
+			w3cPeriodDayPart = w3cPeriod;
+			w3cPeriodTimePart = "";
 		}
 
 		var w3cPeriodDaySeparators : Array<String> = "YnMnD".split( "n" );
@@ -152,24 +167,32 @@ class W3cPeriod {
 			while ( 0 < w3cPeriodPart.length ) {
 
 				var separator : String = separators.shift();
-				var index : Int = w3cPeriodPart.indexOf( separator );
-				if ( index != -1 ) {
+				if ( separator != null ) {
 
-					var n : Float = Std.parseFloat( w3cPeriodPart );
-					if ( 0 < n ) {
+					var index : Int = w3cPeriodPart.indexOf( separator );
+					if ( index != -1 ) {
 
-						switch( w3cPeriodPart.charAt( index ) ) {
+						var n : Float = Std.parseFloat( w3cPeriodPart );
+						if ( 0 < n ) {
 
-							case "Y": n = TimeUtil.daysToMilliseconds( n * 365 );
-							case "M": n = TimeUtil.daysToMilliseconds( n * 365 / 12 );
-							case "D": n = TimeUtil.daysToMilliseconds( n );
-							default: n;
+							switch( w3cPeriodPart.charAt( index ) ) {
+
+								case "Y": n = TimeUtil.daysToMilliseconds( n * DAYS_IN_YEAR );
+								case "M": n = TimeUtil.daysToMilliseconds( n * DAYS_IN_MONTH );
+								case "D": n = TimeUtil.daysToMilliseconds( n );
+								default: n;
+							}
+
+							milliseconds += n;
 						}
 
-						milliseconds += n;
+						w3cPeriodPart = w3cPeriodPart.substr( index + 1 );
 					}
+				}
+				else {
 
-					w3cPeriodPart = w3cPeriodPart.substr( index + 1 );
+					// Invalid format
+					return TO_MILLISECONDS_FAILED_FALLBACK;
 				}
 			}
 		}
@@ -182,24 +205,32 @@ class W3cPeriod {
 			while ( 0 < w3cPeriodPart.length ) {
 
 				var separator : String = separators.shift();
-				var index : Int = w3cPeriodPart.indexOf( separator );
-				if ( index != -1 ) {
+				if ( separator != null ) {
 
-					var n : Float = Std.parseFloat( w3cPeriodPart );
-					if ( 0 < n ) {
+					var index : Int = w3cPeriodPart.indexOf( separator );
+					if ( index != -1 ) {
 
-						switch( w3cPeriodPart.charAt( index ) ) {
+						var n : Float = Std.parseFloat( w3cPeriodPart );
+						if ( 0 < n ) {
 
-							case "H": n = TimeUtil.hoursToMilliseconds( n );
-							case "M": n = TimeUtil.minutesToMilliseconds( n );
-							case "S": n = TimeUtil.secondsToMilliseconds( n );
-							default: n;
+							switch( w3cPeriodPart.charAt( index ) ) {
+
+								case "H": n = TimeUtil.hoursToMilliseconds( n );
+								case "M": n = TimeUtil.minutesToMilliseconds( n );
+								case "S": n = TimeUtil.secondsToMilliseconds( n );
+								default: n;
+							}
+
+							milliseconds += n;
 						}
 
-						milliseconds += n;
+						w3cPeriodPart = w3cPeriodPart.substr( index + 1 );
 					}
+				}
+				else {
 
-					w3cPeriodPart = w3cPeriodPart.substr( index + 1 );
+					// Invalid format
+					return TO_MILLISECONDS_FAILED_FALLBACK;
 				}
 			}
 		}
