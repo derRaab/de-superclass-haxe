@@ -19,6 +19,8 @@ class W3cPeriodTestCase extends TestCase {
         assertEquals( "P1D", W3cPeriod.fromMilliseconds( millisecondsDay ) );
         assertEquals( "P1DT1S", W3cPeriod.fromMilliseconds( millisecondsDay + millisecondsSecond ) );
         assertEquals( "P24D", W3cPeriod.fromMilliseconds( 24 * millisecondsDay ) );
+        assertEquals( "P400D", W3cPeriod.fromMilliseconds( 400 * millisecondsDay ) );
+        assertEquals( "P10000D", W3cPeriod.fromMilliseconds( 10000 * millisecondsDay ) );
     }
 
     public function testToMilliseconds() {
@@ -37,5 +39,7 @@ class W3cPeriodTestCase extends TestCase {
         assertEquals( millisecondsDay, W3cPeriod.toMilliseconds( "P1D" ) );
         assertEquals( millisecondsDay + millisecondsSecond, W3cPeriod.toMilliseconds( "P1DT1S" ) );
         assertEquals( 24 * millisecondsDay, W3cPeriod.toMilliseconds( "P24D" ) );
+        assertEquals( 400 * millisecondsDay, W3cPeriod.toMilliseconds( "P400D" ) );
+        assertEquals( 10000 * millisecondsDay, W3cPeriod.toMilliseconds( "P10000D" ) );
     }
 }
