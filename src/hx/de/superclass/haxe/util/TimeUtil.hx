@@ -29,46 +29,6 @@ import de.superclass.haxe.util.StringUtil;
 **/
 class TimeUtil {
 
-	public static inline function millisecondsToDays( milliseconds : Float ) : Float {
-
-		return millisecondsToHours( milliseconds ) / 24;
-	}
-
-	public static inline function millisecondsToHours( milliseconds : Float ) : Float {
-
-		return millisecondsToMinutes( milliseconds ) / 60;
-	}
-
-	public static inline function millisecondsToMinutes( milliseconds : Float ) : Float {
-
-		return millisecondsToSeconds( milliseconds ) / 60;
-	}
-
-	public static inline function millisecondsToSeconds( milliseconds : Float ) : Float {
-
-		return milliseconds / 1000;
-	}
-
-	public static inline function daysToMilliseconds( days : Float ) : Float {
-
-		return hoursToMilliseconds( days * 24 );
-	}
-
-	public static inline function hoursToMilliseconds( hours : Float ) : Float {
-
-		return minutesToMilliseconds( hours * 60 );
-	}
-
-	public static inline function minutesToMilliseconds( minutes : Float ) : Float {
-
-		return secondsToMilliseconds( minutes * 60 );
-	}
-
-	public static inline function secondsToMilliseconds( seconds : Float ) : Float {
-
-		return seconds * 1000;
-	}
-
 	/**
 		Creates a nicely formatted time period string from `seconds` perfectly usable for video playback controls (e.g. 0 -> 0:00).
 
@@ -218,5 +178,113 @@ class TimeUtil {
 		}
 
 		return Math.NaN;
+	}
+
+	public static inline function daysToHours( days : Float ) : Float {
+
+		return days * 24.0;
+	}
+
+	public static inline function daysToMinutes( days : Float ) : Float {
+
+		return hoursToMinutes( daysToHours( days ) );
+	}
+
+	public static inline function daysToSeconds( days : Float ) : Float {
+
+		return minutesToSeconds( hoursToMinutes( daysToHours( days ) ) );
+	}
+
+	public static inline function daysToMilliseconds( days : Float ) : Float {
+
+		return secondsToMilliseconds( minutesToSeconds( hoursToMinutes( daysToHours( days ) ) ) );
+	}
+
+
+
+	public static inline function hoursToDays( hours : Float ) : Float {
+
+		return hours / 24.0;
+	}
+
+	public static inline function hoursToMinutes( hours : Float ) : Float {
+
+		return hours * 60.0;
+	}
+
+	public static inline function hoursToSeconds( hours : Float ) : Float {
+
+		return minutesToSeconds( hoursToMinutes( hours ) );
+	}
+
+	public static inline function hoursToMilliseconds( hours : Float ) : Float {
+
+		return secondsToMilliseconds( minutesToSeconds( hoursToMinutes( hours ) ) );
+	}
+
+
+
+	public static inline function minutesToDays( minutes : Float ) : Float {
+
+		return hoursToDays( minutesToHours( minutes ) );
+	}
+
+	public static inline function minutesToHours( minutes : Float ) : Float {
+
+		return minutes / 60.0;
+	}
+
+	public static inline function minutesToSeconds( minutes : Float ) : Float {
+
+		return minutes * 60.0;
+	}
+
+	public static inline function minutesToMilliseconds( minutes : Float ) : Float {
+
+		return secondsToMilliseconds( minutesToSeconds( minutes ) );
+	}
+
+
+
+	public static inline function secondsToDays( seconds : Float ) : Float {
+
+		return hoursToDays( minutesToHours( secondsToMinutes( seconds ) ) );
+	}
+
+	public static inline function secondsToHours( seconds : Float ) : Float {
+
+		return minutesToHours( secondsToMinutes( seconds ) );
+	}
+
+	public static inline function secondsToMinutes( seconds : Float ) : Float {
+
+		return seconds / 60.0;
+	}
+
+	public static inline function secondsToMilliseconds( seconds : Float ) : Float {
+
+		return seconds * 1000.0;
+	}
+
+
+
+	public static inline function millisecondsToDays( milliseconds : Float ) : Float {
+
+		return hoursToDays( minutesToHours( secondsToMinutes( millisecondsToSeconds( milliseconds ) ) ) );
+	}
+
+	public static inline function millisecondsToHours( milliseconds : Float ) : Float {
+
+		return minutesToHours( secondsToMinutes( millisecondsToSeconds( milliseconds ) ) );
+	}
+
+	public static inline function millisecondsToMinutes( milliseconds : Float ) : Float {
+
+		return secondsToMinutes( millisecondsToSeconds( milliseconds ) );
+	}
+
+	public static inline function millisecondsToSeconds( milliseconds : Float ) : Float {
+
+		return milliseconds / 1000.0;
 	}
 }
