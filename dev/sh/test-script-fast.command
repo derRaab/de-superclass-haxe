@@ -4,6 +4,7 @@ cd ../..
 haxe dev/ci/build-interp.hxml
 haxe dev/ci/build-neko.hxml         && neko bin/neko/TestMainHx.n
 haxe dev/ci/build-js.hxml           && node bin/js/TestMainHx.js
+haxe dev/ci/build-flash.hxml -D fdb && haxe dev/flash/run.hxml bin/flash/TestMainHx.swf
 
 # Skip phantom js test 
 #                                    && haxe dev/phantomjs/run.hxml bin/js/TestMainHx.js
@@ -19,9 +20,6 @@ haxe dev/ci/build-js.hxml           && node bin/js/TestMainHx.js
 
 # Skip c
 #haxe dev/ci/build-cs.hxml           && mono bin/cs/bin/TestMainHx.exe
-
-# Skip flash
-#haxe dev/ci/build-flash.hxml -D fdb && haxe dev/flash/run.hxml bin/flash/TestMainHx.swf
 
 # Skip cpp
 #haxe dev/ci/build-cpp.hxml          && bin/cpp/TestMainHx
