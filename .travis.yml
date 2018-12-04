@@ -46,8 +46,6 @@ addons:
       - luarocks
       - libpcre3-dev
       - libssl-dev
-      # Try to fix flash test run with haxe development https://github.com/travis-ci/travis-ci/issues/8481#issuecomment-363714625
-      - xvfb
 
 install:
   # os-specific config
