@@ -226,17 +226,39 @@ class XmlUtil {
 		return parent;
 	}
 
-	public static function getNodeValueString( node : Xml ) : String {
+	public static function getNodeValueString( nodeXml : Xml ) : String {
 
-		if ( node != null ) {
+		if ( nodeXml != null ) {
 
-			var xml : Xml = node.firstChild();
-			if ( xml == null ) {
+			var stringValue : String = "";
 
-				return "";
+			for ( childXml in nodeXml.iterator() ) {
+
+				switch ( childXml.nodeType ) {
+
+					case XmlType.CData:
+
+						stringValue += childXml.nodeValue;
+
+					case XmlType.PCData:
+
+						var nodeValue : String = childXml.nodeValue;
+						if ( nodeValue != null && 0 < nodeValue.length ) {
+
+							var r = ~/\n\r\t/g;
+							nodeValue = r.replace( nodeValue, "" );
+							nodeValue = StringTools.trim( nodeValue );
+						}
+
+						stringValue += nodeValue;
+
+					default:
+				}
 			}
-			return "" + xml;
+
+			return stringValue;
 		}
+
 		return null;
 	}
 
