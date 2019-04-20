@@ -493,4 +493,153 @@ class XmlUtil {
 
 		return xml2;
 	}
+
+	public static function prettify2( xml : Xml, tab : String, lineBreak : String, linePrefix : String, ?maxDepth : Int = -1, ?depth : Int = 0, ?selfClosingTagSupported : Bool = false, ?commentsSupported : Bool = false ) : String {
+
+		switch ( xml.nodeType ) {
+
+			case XmlType.Element:
+
+				var nodeName : String = xml.nodeName;
+
+				// OPEN TAG - maybe new line
+				var xmlString : String = lineBreak + linePrefix + "<" + nodeName;
+
+				// APPLY ATTRIBUTES in sorted order
+				var attributes : Array<String> = null;
+				for ( attribute in xml.attributes() ) {
+
+					if ( attributes == null ) attributes = [];
+					attributes[ attributes.length ] = attribute;
+				}
+
+				if ( attributes != null ) {
+
+					attributes.sort( ArrayUtil.sortFunctionAscending );
+
+					for ( i in 0...attributes.length ) {
+
+						var attribute : String = attributes[ i ];
+
+						xmlString += " " + attribute + "=\"" + xml.get( attribute ) + "\"";
+					}
+				}
+
+				var closeTagOnNewLine : Bool = true;
+
+
+				// PRETTIFY CHILDREN
+				var xmlChildrenString : String = "";
+				if ( maxDepth < 0 || depth < maxDepth ) {
+
+					var childCount : Int = 0;
+					var pcChildCount : Int = 0;
+
+					for ( xmlChild in xml ) {
+
+						var xmlChildString : String =  prettify2( xmlChild, tab, lineBreak, linePrefix + tab, maxDepth, depth + 1, selfClosingTagSupported, commentsSupported );
+						if ( StringUtil.hasLength( xmlChildString ) ) {
+
+							childCount++;
+
+							if ( xmlChild.nodeType != Xml.Element ) {
+
+								if ( xmlChild.nodeType == Xml.PCData ) {
+
+									pcChildCount++;
+								}
+
+								// Put all other nodes on new line
+								xmlChildrenString += lineBreak + linePrefix + tab;
+							}
+
+							xmlChildrenString += xmlChildString;
+						}
+					}
+
+					if ( childCount == 1 && pcChildCount == 1 ) {
+
+						xmlChildrenString = xmlChildrenString.substr( Std.string( lineBreak + linePrefix + tab ).length );
+						closeTagOnNewLine = false;
+					}
+				}
+
+				var hasChildren : Bool = StringUtil.hasLength( xmlChildrenString );
+				var closeTagItself : Bool = ( selfClosingTagSupported && ! hasChildren );
+
+				// CLOSE TAG
+				if ( closeTagItself ) {
+
+					xmlString += "/>";
+				}
+				else {
+
+					xmlString += ">";
+
+					if ( hasChildren ) {
+
+						xmlString += xmlChildrenString;
+
+						if ( closeTagOnNewLine ) {
+
+							xmlString += lineBreak + linePrefix;
+						}
+					}
+
+					xmlString += "</" + nodeName + ">";
+				}
+
+				return xmlString;
+
+			case XmlType.PCData:
+
+				var xmlString : String = xml.nodeValue;
+
+				xmlString = StringUtil.replace( xmlString, "\n", " " );
+				xmlString = StringUtil.replace( xmlString, "\r", " " );
+				xmlString = StringUtil.replace( xmlString, "\t", " " );
+				xmlString = StringUtil.trim( xmlString, " " );
+
+				return xmlString;
+
+			case XmlType.CData:
+
+				return xml.toString();
+
+			case XmlType.Comment:
+
+				return ( commentsSupported ) ? xml.toString() : "";
+
+			case XmlType.DocType:
+
+				return xml.toString();
+
+			case XmlType.ProcessingInstruction:
+
+				return xml.toString();
+
+			case XmlType.Document:
+
+				// Just forward to first element but avoid first linebreak
+				var xmlString : String = prettify2( xml.firstElement(), tab, lineBreak, linePrefix, maxDepth, depth, selfClosingTagSupported );
+				if ( lineBreak.length <= xmlString.length ) {
+
+					xmlString = xmlString.substr( lineBreak.length );
+				}
+
+				return xmlString;
+		}
+
+		return "";
+	}
+
+	public static inline function prettify2Max( xml : Xml, ?selfClosingTagSupported : Bool = false, ?commentsSupported : Bool = false ) : String {
+
+		return prettify2( xml, "\t", "\n", "", -1, 0, selfClosingTagSupported, commentsSupported );
+	}
+
+	public static inline function prettify2Min( xml : Xml, ?selfClosingTagSupported : Bool = false, ?commentsSupported : Bool = false ) : String {
+
+		return prettify2( xml, "", "", "", -1, 0, selfClosingTagSupported, commentsSupported );
+	}
 }
