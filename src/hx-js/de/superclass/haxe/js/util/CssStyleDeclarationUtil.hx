@@ -22,6 +22,7 @@
 
 package de.superclass.haxe.js.util;
 
+import de.superclass.haxe.util.ReflectUtil;
 import de.superclass.haxe.css.model.constant.CssPropertyPrefix;
 import de.superclass.haxe.util.StringUtil;
 import js.html.CSSStyleDeclaration;
@@ -132,5 +133,16 @@ class CssStyleDeclarationUtil {
 
         // not found!
         return -1;
+    }
+
+    public static function setStyle( declaration : CSSStyleDeclaration, style : String, value : String ) : Bool {
+
+        if ( declaration != null && ReflectUtil.getField( declaration, style ) != value ) {
+
+            ReflectUtil.setField( declaration, style, value );
+            return true;
+        }
+
+        return false;
     }
 }
