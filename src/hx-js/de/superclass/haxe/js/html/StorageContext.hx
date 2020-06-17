@@ -31,8 +31,8 @@ import js.html.Storage;
 **/
 class StorageContext {
 
-    private static var _prefix : String;
-    private static var _storage : Storage;
+    private var _prefix : String;
+    private var _storage : Storage;
 
     public function new( storage : Storage, prefix : String ) {
 
