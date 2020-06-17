@@ -55,6 +55,30 @@ class ReflectUtil {
 		return null;
 	}
 
+	public static function setNestedField( o : Dynamic, fieldNames : Array<String>, value: Dynamic ) : Void {
+
+		while ( 0 < fieldNames.length ) {
+
+			var fieldName : String = fieldNames.shift();
+
+			var isLast : Bool = ( 0 == fieldNames.length );
+			if ( isLast ) {
+
+				setField( o, fieldName, value );
+			}
+			else {
+
+				var currentObject : Dynamic = getField( o, fieldName );
+				if ( currentObject == null ) {
+
+					currentObject = {};
+					setField( o, fieldName, currentObject );
+				}
+				o = currentObject;
+			}
+		}
+	}
+
 	public static function ensureFieldNamed( o : Dynamic, fieldName : String, value : Dynamic ) : Void {
 
 		var currentValue : Dynamic = getField( o, fieldName );
