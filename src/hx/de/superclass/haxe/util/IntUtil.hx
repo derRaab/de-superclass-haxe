@@ -34,10 +34,10 @@ class IntUtil {
     public static var MIN_VALUE :Int = #if (php || php7) -2147483647; #else -2147483648; #end
 
     /** Return a random integer between 0 (inclusive) and the given integer (inclusive) **/
-    public static function random( int : Int ) : Int {
+    public static function random( intValue : Int ) : Int {
 
-        if ( int == 0 ) return 0;
-        return Std.int( Math.round( Math.random() * int ) );
+        if ( intValue == 0 ) return 0;
+        return Std.int( Math.round( Math.random() * intValue ) );
     }
 
     /** Return the list of prime factors for a given integer **/
