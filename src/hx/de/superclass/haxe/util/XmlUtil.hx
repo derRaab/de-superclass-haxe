@@ -152,31 +152,80 @@ class XmlUtil {
 		return null;
 	}
 
-	public static function getChildNodesNamedNested( parent : Xml, names : Array<String> ) :  Array<Xml> {
+	public static function getChildNodesNamedNested( parent : Xml, names : Array<String>, namesIndex : Int = 0 ) :  Array<Xml> {
 
-		var index : Int = 0;
-		var count : Int = names.length;
-		if ( count == 0 ) {
+		if ( parent != null && names != null ) {
 
-			return null;
-		}
+			var namesLength : Int = names.length;
+			if ( namesIndex < namesLength ) {
 
-		while ( parent != null && index < count - 1 ) {
+				var indexName : String = names[ namesIndex ];
+				if ( StringUtil.hasLength( indexName ) ) {
 
-			// Get next nestet child
-			parent = getFirstChildNamed( parent, names[ index ] );
-			// Next index
-			index++;
-		}
+					var indexNameXmls : Array<Xml> = getChildNodesNamed( parent, indexName );
+					if ( ArrayUtil.hasLength( indexNameXmls ) ) {
 
-		if ( parent != null ) {
+						var nextNamesIndex : Int = namesIndex + 1;
+						if ( nextNamesIndex == namesLength ) {
 
-			var nodes : Array<Xml> = getChildNodesNamed( parent, names[ index ] );
-			return nodes;
+							// Found nested nodes
+							return indexNameXmls;
+						}
+						else {
+
+							var namedXmls : Array<Xml> = null;
+
+							for ( i in 0...indexNameXmls.length ) {
+
+								var nestedNamedXmls : Array<Xml> = getChildNodesNamedNested( indexNameXmls[ i ], names, nextNamesIndex );
+								if ( ArrayUtil.hasLength( nestedNamedXmls ) ) {
+
+									if ( namedXmls == null ) {
+
+										namedXmls = nestedNamedXmls;
+									}
+									else {
+
+										namedXmls = namedXmls.concat( nestedNamedXmls );
+									}
+								}
+							}
+
+							return namedXmls;
+						}
+					}
+				}
+			}
 		}
 
 		return null;
 	}
+
+//	public static function getChildNodesNamedNested( parent : Xml, names : Array<String> ) :  Array<Xml> {
+//
+//		var index : Int = 0;
+//		var count : Int = names.length;
+//		if ( count == 0 ) {
+//
+//			return null;
+//		}
+//
+//		while ( parent != null && index < count - 1 ) {
+//
+//			// Get next nestet child
+//			parent = getFirstChildNamed( parent, names[ index ] );
+//			// Next index
+//			index++;
+//		}
+//
+//		if ( parent != null ) {
+//
+//			var nodes : Array<Xml> = getChildNodesNamed( parent, names[ index ] );
+//			return nodes;
+//		}
+//
+//		return null;
+//	}
 
 	public static function filterElements( parent : Xml, filter : Xml -> Bool ) : Array<Xml> {
 
