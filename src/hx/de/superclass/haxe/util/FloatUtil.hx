@@ -33,10 +33,10 @@ class FloatUtil {
 	/** The lowest integer value in Flash and JS. */
 	public static var MIN_VALUE : Float = -1.79769313486231e+308;
 
-	public static function prettify( float : Float, thousandSeparator : String, comma : String ) : String
+	public static function prettify( floatValue : Float, thousandSeparator : String, comma : String ) : String
 	{
-		var floatString = Std.string( float );
-		if ( ! isNaN( float ) ) {
+		var floatString = Std.string( floatValue );
+		if ( ! isNaN( floatValue ) ) {
 
 			// Find dot
 			var commaIndex : Int = floatString.indexOf( "." );
@@ -69,9 +69,9 @@ class FloatUtil {
 		return floatString;
 	}
 
-	public static function chop( float : Float, min : Float = 0, max : Float = 1 ) : Float
+	public static function chop( floatValue : Float, min : Float = 0, max : Float = 1 ) : Float
 	{
-		return Math.min( max, Math.max( min, float ) );
+		return Math.min( max, Math.max( min, floatValue ) );
 	}
 
 	public static function distance( n1 : Float, n0 : Float ) : Float
@@ -81,12 +81,12 @@ class FloatUtil {
 		return n0 - n1;
 	}
 
-	public static function fixed( float : Float, fractionDigits : Int = 0 ) : Float
+	public static function fixed( floatValue : Float, fractionDigits : Int = 0 ) : Float
 	{
-		if ( fractionDigits == 0 || fractionDigits > 20 ) return Math.round( float );
+		if ( fractionDigits == 0 || fractionDigits > 20 ) return Math.round( floatValue );
 
 		var f : Float = Math.pow( 10, fractionDigits );
-		return Math.round( float * f ) / f;
+		return Math.round( floatValue * f ) / f;
 	}
 
 	public static function interpolateAndSnap( n1 : Float, n0 : Float, f : Float, snapDistance : Float ) : Float
@@ -102,37 +102,37 @@ class FloatUtil {
 		return n0 + ( n1 - n0 ) * f;
 	}
 
-	public static function isNaNFallback( float : Float, fallBack : Float ) : Float {
+	public static function isNaNFallback( floatValue : Float, fallBack : Float ) : Float {
 
-		if ( isNaN( float ) ) {
+		if ( isNaN( floatValue ) ) {
 
-			float = fallBack;
+			floatValue = fallBack;
 		}
 
-		return float;
+		return floatValue;
 	}
 
-	public static inline function isNaN( float : Float ) : Bool {
+	public static inline function isNaN( floatValue : Float ) : Bool {
 
 		#if flash
-		return ( "" + float == "" + Math.NaN );
+		return ( "" + floatValue == "" + Math.NaN );
 		#else
-		return Math.isNaN( float );
+		return Math.isNaN( floatValue );
 		#end
 	}
 
 	/**
 		Returns only the `float`s fractions.
 	**/
-	public static function getFractions( float : Float ) : Float {
+	public static function getFractions( floatValue : Float ) : Float {
 
-		if ( float < 0 ) {
+		if ( floatValue < 0 ) {
 
-			return float + Math.ceil( float );
+			return floatValue + Math.ceil( floatValue );
 		}
-		else if ( 0 < float ) {
+		else if ( 0 < floatValue ) {
 
-			return float - Math.floor( float );
+			return floatValue - Math.floor( floatValue );
 		}
 		else {
 
