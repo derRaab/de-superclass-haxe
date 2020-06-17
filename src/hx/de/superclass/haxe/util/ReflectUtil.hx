@@ -31,7 +31,7 @@ class ReflectUtil {
 	public static function getField( o : Dynamic, fieldName : String ) : Dynamic {
 
 		#if js
-			return untyped __js__("o[fieldName]");
+			return js.Syntax.code("o[fieldName]");
 		#else
 			return Reflect.field( o, fieldName );
 		#end
@@ -67,7 +67,7 @@ class ReflectUtil {
 	public static function setField( o : Dynamic, fieldName : String, value : Dynamic ) : Void {
 
 		#if js
-			untyped __js__("o[fieldName]=value");
+			js.Syntax.code("o[fieldName]=value");
 		#else
 			Reflect.setField( o, fieldName, value );
 		#end
