@@ -111,7 +111,7 @@ class TimeUtil {
 		}
 		else {
 
-			string += seconds;
+			string += "" + seconds;
 		}
 
 		string += fractionsString;
