@@ -38,7 +38,7 @@ class ArrayUtil {
 	/**
 		Returns `true` if an array contains the exact same values. Otherwise `false`.
 	**/
-	public static inline function equals<T>( array : Array<T>, arrayB : Array<T> ) : Bool {
+	public static function equals<T>( array : Array<T>, arrayB : Array<T> ) : Bool {
 
 		if ( array != null && arrayB != null ) {
 
@@ -86,7 +86,7 @@ class ArrayUtil {
 	/**
 		Fill up an array with the `value` until it reaches `maxlength`.
 	**/
-	public static inline function fill<T>( array : Array<T>, maxLength : Int, value : T ) : Array<T> {
+	public static function fill<T>( array : Array<T>, maxLength : Int, value : T ) : Array<T> {
 
 		for ( i in array.length...maxLength ) {
 
@@ -128,7 +128,30 @@ class ArrayUtil {
 		return toArray;
 	}
 
-	public static inline function pushAll<T>( toArray : Array<T>, fromArray : Array<T> ) : Array<T> {
+	public static function pushAvoidNull<T>(array : Array<T>, x: T ) : Array<T> {
+
+		if ( x != null ) {
+
+			array.push( x );
+		}
+		return array;
+	}
+
+	public static function popAll<T>( array : Array<T> ) : Array<T> {
+
+		if ( array != null ) {
+
+			var all : Array<T> = [];
+			while ( 0 < array.length ) {
+
+				all.push( array.pop() );
+			}
+			return all;
+		}
+		return null;
+	}
+
+	public static function pushAll<T>( toArray : Array<T>, fromArray : Array<T> ) : Array<T> {
 
 		for ( i in 0...fromArray.length ) {
 
@@ -146,6 +169,29 @@ class ArrayUtil {
 			array.splice( index, 1 );
 		}
 		return index;
+	}
+
+	public static inline function removeDuplicates<T>( array : Array<T> ) : Int {
+
+		var unique : Array<T> = [];
+		var removed : Int = 0;
+
+		var i : Int = 0;
+		while ( i < array.length ) {
+
+			var value : T = array[ i ];
+			if ( ArrayUtil.contains( unique, value ) ) {
+
+				removed++;
+				array.splice( i, 1 );
+			}
+			else {
+
+				unique.push( value );
+				i++;
+			}
+		}
+		return removed;
 	}
 
 	/* Shuffles an array */
