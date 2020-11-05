@@ -34,6 +34,20 @@ class StringUtil {
 		return detectFirstUsedValue( string, LINE_BREAKS, fallback );
 	}
 
+	public static function removeByteOrderMark( string : String ) : String {
+
+		if ( startsWithByteOrderMark( string ) ) {
+
+			string = string.substr( 1 );
+		}
+		return string;
+	}
+
+	public static function startsWithByteOrderMark( string : String ) : Bool {
+
+		return ( hasLength( string ) && string.charCodeAt( 0 ) == 65279 );
+	}
+
 	public static function indexOf( string : String, searchStringsArray : Array<String>, ?startIndex : Int = 0) : Int
 	{
 		var firstIndex : Int = -1;
@@ -375,5 +389,57 @@ class StringUtil {
 		}
 
 		return strings;
+	}
+
+	public static function cutUpChunksAtMarkerEnd( string : String, cutMarker : Array<String> ) : Array<String> {
+
+		var markerFound : String = "";
+		var markerFoundIndex : Int = -1;
+
+		var chunks : Array<String> = [];
+
+		while ( 0 < string.length ) {
+
+			for ( i in 0...cutMarker.length ) {
+
+				var marker : String = cutMarker[ i ];
+				var markerIndex : Int = string.indexOf( marker );
+
+				var useThisMarker : Bool = (
+					markerIndex != -1 &&
+					(
+						markerFoundIndex == -1 ||
+						markerIndex < markerFoundIndex ||
+						( markerIndex == markerFoundIndex && markerFound.length < marker.length )
+					)
+				);
+
+				if ( useThisMarker ) {
+
+					markerFound = marker;
+					markerFoundIndex = markerIndex;
+				}
+			}
+
+			if ( 0 <= markerFoundIndex ) {
+
+				// Add chunk
+				var cutIndex : Int = markerFoundIndex + markerFound.length;
+				chunks.push( string.substr( 0, cutIndex ) );
+				string = string.substr( cutIndex );
+			}
+			else {
+
+				// Add rest
+				chunks.push( string );
+				string = "";
+			}
+
+			// Reset
+			markerFound = "";
+			markerFoundIndex = -1;
+		}
+
+		return chunks;
 	}
 }
