@@ -52,20 +52,20 @@ class JsonUtil {
 		}
 
 		// String
-		if ( Std.is( object, String ) ) {
+		if ( Std.isOfType( object, String ) ) {
 
 			// With "
 			return "\"" + escapeString( object ) + "\"";
 		}
 
 		// BOOL
-		if ( Std.is( object, Bool ) ) {
+		if ( Std.isOfType( object, Bool ) ) {
 
 			return ( object == true ) ? "true" : "false";
 		}
 
 		// Number
-		if ( Std.is( object, Float ) || Std.is( object, Int ) ) {
+		if ( Std.isOfType( object, Float ) || Std.isOfType( object, Int ) ) {
 
 			// Without "
 			return "" + object;
@@ -84,7 +84,7 @@ class JsonUtil {
 		}
 
 		// Array
-		if ( Std.is( object, Array ) ) {
+		if ( Std.isOfType( object, Array ) ) {
 
 			// Start on same line
 			var arrayString : String = "[";

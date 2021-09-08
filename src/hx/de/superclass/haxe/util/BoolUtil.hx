@@ -33,7 +33,7 @@ class BoolUtil {
 		{
 			return defaultsTo;
 		}
-		else if ( Std.is( value, String ) )
+		else if ( Std.isOfType( value, String ) )
 		{
 			switch( cast( value, String ).toLowerCase() )
 			{

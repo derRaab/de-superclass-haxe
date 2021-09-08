@@ -31,7 +31,7 @@ class TypeUtil {
 
 		if ( v != null ) {
 
-			if ( Std.is( v, t ) ) {
+			if ( Std.isOfType( v, t ) ) {
 
 				return v;
 			}

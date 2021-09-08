@@ -56,7 +56,7 @@ class DisplayObjectContainerUtil {
                 }
             }
 
-            if ( Std.is( rightMostChild, DisplayObjectContainer ) ) {
+            if ( Std.isOfType( rightMostChild, DisplayObjectContainer ) ) {
 
                 rightMostChild = getRightmostNestedDisplayObject( cast rightMostChild, targetCoordinateSpace );
             }
